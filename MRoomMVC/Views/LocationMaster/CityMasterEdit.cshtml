@@ -1,0 +1,79 @@
+﻿@model CityMaster
+@{
+    ViewBag.Title = "City Edit";
+    ViewBag.PageTitle = "City Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form action="/LocationMaster/CityMasterEdit" method="post" class="row g-0">
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="col-12">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.CountryId, "Select Country", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.CountryId, (IEnumerable<SelectListItem>)ViewBag.LCountryName, "Select Country", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.CountryId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.StateId, "Select State", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.StateId, (IEnumerable<SelectListItem>)ViewBag.LStateName, "Select Country", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.StateId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Name, "City Name", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <label for="Status" class="from-label mb-2">Select Status</label>
+                            @Html.DropDownListFor(m => m.Status, new List<SelectListItem> { new SelectListItem { Text = "Active", Value = "Active" }, new SelectListItem { Text = "InActive", Value = "InActive" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#CountryId").on("change", function () {
+                GetStates($(this).val(), $("#StateId"));
+            });
+        });
+
+        function GetStates(countryid, stateEle) {
+            let country = countryid;
+            $.ajax({
+                url: "/LocationMaster/GetStates",
+                dataType: 'json',
+                data: { countryId: country },
+                success: function (res) {
+                    let $stateName = stateEle;
+                    $stateName.empty();
+                    $stateName.append($("<option>").val("").text("Select State"));
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $stateName.append($("<option>").val(item.Id).text(item.Name));
+                        });
+                    } else {
+                        $stateName.append($("<option>").val("").text("No states available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving stateNames.");
+                }
+            });
+        }
+    </script>
+}
+

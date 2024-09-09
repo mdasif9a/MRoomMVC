@@ -1,0 +1,40 @@
+@model Stair
+@{
+    ViewBag.Title = "Stair Edit";
+    ViewBag.PageTitle = "Stair Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form action="/ProMaster/StairEdit" method="post" class="row g-0">
+                    @Html.HiddenFor(m => m.Id)
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label mb-2">Stair Name</label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <label for="Status" class="form-label mb-2">Select Status</label>
+                            @Html.DropDownListFor(m => m.Status, new List<SelectListItem> { new SelectListItem { Text = "Active", Value = "Active" }, new SelectListItem { Text = "InActive", Value = "InActive" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    </script>
+}

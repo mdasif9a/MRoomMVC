@@ -1,0 +1,45 @@
+﻿@model PropertyVariant
+@{
+    ViewBag.Title = "Property Variant Entry";
+    ViewBag.PageTitle = "Property Variant Entry";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form action="/ProMaster/PropertyVariantCreate" method="post" class="row g-0">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.PropertyTypeId, "Property Type", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.PropertyTypeId, (IEnumerable<SelectListItem>)ViewBag.LPropertyType, "Select Property Type", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.PropertyTypeId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.PropertyVariantName, "Property Variant Name", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.PropertyVariantName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PropertyVariantName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Status, "Select Status", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.Status, new List<SelectListItem> { new SelectListItem { Text = "Active", Value = "Active" }, new SelectListItem { Text = "InActive", Value = "InActive" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+    </script>
+}
+

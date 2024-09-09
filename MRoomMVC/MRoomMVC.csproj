@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -43,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -88,19 +95,354 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminLayouts\css\bootstrap-icons\bootstrap-icons.css" />
+    <Content Include="Content\AdminLayouts\css\bootstrap-icons\index.html" />
+    <Content Include="Content\AdminLayouts\css\bootstrap.min.css" />
+    <Content Include="Content\AdminLayouts\css\boxicons\css\animations.css" />
+    <Content Include="Content\AdminLayouts\css\boxicons\css\boxicons.css" />
+    <Content Include="Content\AdminLayouts\css\boxicons\css\boxicons.min.css" />
+    <Content Include="Content\AdminLayouts\css\boxicons\css\transformations.css" />
+    <Content Include="Content\AdminLayouts\css\boxicons\fonts\boxicons.svg" />
+    <Content Include="Content\AdminLayouts\css\style.css" />
+    <Content Include="Content\AdminLayouts\datatables\buttons.dataTables.min.css" />
+    <Content Include="Content\AdminLayouts\datatables\buttons.print.min.js" />
+    <Content Include="Content\AdminLayouts\datatables\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\AdminLayouts\datatables\dataTables.bootstrap5.min.js" />
+    <Content Include="Content\AdminLayouts\datatables\dataTables.buttons.min.js" />
+    <Content Include="Content\AdminLayouts\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\AdminLayouts\img\favicon.png" />
+    <Content Include="Content\AdminLayouts\img\logo.png" />
+    <Content Include="Content\AdminLayouts\img\not-found.svg" />
+    <Content Include="Content\AdminLayouts\img\profile-img.jpg" />
+    <Content Include="Content\AdminLayouts\jquery-validate\jquery.validate.min.js" />
+    <Content Include="Content\AdminLayouts\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\AdminLayouts\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\AdminLayouts\js\custom.js" />
+    <Content Include="Content\AdminLayouts\js\jquery-3.6.3.js" />
+    <Content Include="Content\AdminLayouts\js\jquery-3.6.3.min.js" />
+    <Content Include="Content\AdminLayouts\js\main.js" />
+    <Content Include="Content\Content\adminsite.css" />
+    <Content Include="Content\Content\userlogo.png" />
+    <Content Include="Content\css\site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Content\img\aboutbg.jpg" />
+    <Content Include="Content\img\avatar1.jpg" />
+    <Content Include="Content\img\avatar2.jpg" />
+    <Content Include="Content\img\avatar3.jpg" />
+    <Content Include="Content\img\avatar4.jpg" />
+    <Content Include="Content\img\avatar5.jpg" />
+    <Content Include="Content\img\avatar6.jpg" />
+    <Content Include="Content\img\download.jfif" />
+    <Content Include="Content\img\mylogo.png" />
+    <Content Include="Content\img\pexels-photo-106399.jpeg" />
+    <Content Include="Content\img\pexels-photo-1396122.jpeg" />
+    <Content Include="Content\img\pexels-photo-164522.jpeg" />
+    <Content Include="Content\img\pexels-photo-210617.jpeg" />
+    <Content Include="Content\img\property-1.jpg" />
+    <Content Include="Content\img\property-2.jpg" />
+    <Content Include="Content\img\property-3.jpg" />
+    <Content Include="Content\img\property-4.jpg" />
+    <Content Include="Content\img\property-5.jpg" />
+    <Content Include="Content\img\property-6.jpg" />
+    <Content Include="Content\img\property-7.jpg" />
+    <Content Include="Content\img\property-8.jpg" />
+    <Content Include="Content\img\shopping.jpeg" />
+    <Content Include="Content\img\shopping_bg.png" />
+    <Content Include="Content\js\site.js" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.rtl.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.rtl.css" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.rtl.min.css" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <Content Include="Content\lib\jquery-validation\dist\additional-methods.js" />
+    <Content Include="Content\lib\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="Content\lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="Content\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="Content\lib\jquery\dist\jquery.js" />
+    <Content Include="Content\lib\jquery\dist\jquery.min.js" />
+    <Content Include="Content\lib\jquery\LICENSE.txt" />
+    <Content Include="Content\PropertyImages\638598465456228575.jpg" />
+    <Content Include="Content\PropertyImages\638598467139834604.jpg" />
+    <Content Include="Content\PropertyImages\638598468017533411.jpg" />
+    <Content Include="Content\PropertyImages\638598512883912932.jpg" />
+    <Content Include="Content\PropertyImages\638598527062983204.jpg" />
+    <Content Include="Content\PropertyImages\638599331646496523.jpg" />
+    <Content Include="Content\PropertyImages\638599336243608038.jpg" />
+    <Content Include="Content\Sliders\638609521563557003.png" />
+    <Content Include="Content\Sliders\638609522349787655.png" />
+    <Content Include="Content\Sliders\638609530539588591.png" />
+    <Content Include="Content\Sliders\638609530634975641.png" />
+    <Content Include="Content\Testimonials\638609525549931480.png" />
     <Content Include="Global.asax" />
+    <Content Include="Views\ProMaster\filecreate.py" />
+    <Content Include="Views\ProMaster\tempCodeRunnerFile.py" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DistanceMasterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationMasterController.cs" />
+    <Compile Include="Controllers\MyUserController.cs" />
+    <Compile Include="Controllers\ProMainController.cs" />
+    <Compile Include="Controllers\ProMasterController.cs" />
+    <Compile Include="Data\MRoomDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BankGov.cs" />
+    <Compile Include="Models\BankPvt.cs" />
+    <Compile Include="Models\BHKType.cs" />
+    <Compile Include="Models\BusStand.cs" />
+    <Compile Include="Models\CityMaster.cs" />
+    <Compile Include="Models\ColonyMuhalla.cs" />
+    <Compile Include="Models\CookingItem.cs" />
+    <Compile Include="Models\CountryMaster.cs" />
+    <Compile Include="Models\CustomRole.cs" />
+    <Compile Include="Models\DmOffice.cs" />
+    <Compile Include="Models\Electricity.cs" />
+    <Compile Include="Models\ElevatorType.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\FirstPriority.cs" />
+    <Compile Include="Models\FloorType.cs" />
+    <Compile Include="Models\FoodType.cs" />
+    <Compile Include="Models\FurnishedItem.cs" />
+    <Compile Include="Models\HospitalGov.cs" />
+    <Compile Include="Models\HospitalPvt.cs" />
+    <Compile Include="Models\Lpg.cs" />
+    <Compile Include="Models\Market.cs" />
+    <Compile Include="Models\MemberType.cs" />
+    <Compile Include="Models\NearBy.cs" />
+    <Compile Include="Models\ParkingType.cs" />
+    <Compile Include="Models\ParkingVisitor.cs" />
+    <Compile Include="Models\PD_Near.cs" />
+    <Compile Include="Models\PropertyCity.cs" />
+    <Compile Include="Models\PropertyDetail.cs" />
+    <Compile Include="Models\PropertyImage.cs" />
+    <Compile Include="Models\PropertyType.cs" />
+    <Compile Include="Models\PropertyVariant.cs" />
+    <Compile Include="Models\PublicTpt.cs" />
+    <Compile Include="Models\RailwayStation.cs" />
+    <Compile Include="Models\Religion.cs" />
+    <Compile Include="Models\Roof.cs" />
+    <Compile Include="Models\SchoolGov.cs" />
+    <Compile Include="Models\SchoolPvt.cs" />
+    <Compile Include="Models\Slider.cs" />
+    <Compile Include="Models\Stair.cs" />
+    <Compile Include="Models\StateMaster.cs" />
+    <Compile Include="Models\Testimonial.cs" />
+    <Compile Include="Models\ToiletType.cs" />
+    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\WaterSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BankGov.cs" />
+    <Compile Include="ViewModels\BankPvt.cs" />
+    <Compile Include="ViewModels\BusStand.cs" />
+    <Compile Include="ViewModels\CityMaster.cs" />
+    <Compile Include="ViewModels\ColonyMuhalla.cs" />
+    <Compile Include="ViewModels\DmOffice.cs" />
+    <Compile Include="ViewModels\HospitalGov.cs" />
+    <Compile Include="ViewModels\HospitalPvt.cs" />
+    <Compile Include="ViewModels\Market.cs" />
+    <Compile Include="ViewModels\NearBy.cs" />
+    <Compile Include="ViewModels\PropertyVariant.cs" />
+    <Compile Include="ViewModels\PublicTpt.cs" />
+    <Compile Include="ViewModels\RailwayStation.cs" />
+    <Compile Include="ViewModels\SchoolGov.cs" />
+    <Compile Include="ViewModels\SchoolPvt.cs" />
+    <Compile Include="ViewModels\StateMaster.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="Content\AdminLayouts\css\bootstrap-icons\bootstrap-icons.json" />
+    <Content Include="Content\AdminLayouts\css\bootstrap-icons\fonts\bootstrap-icons.woff" />
+    <Content Include="Content\AdminLayouts\css\bootstrap-icons\fonts\bootstrap-icons.woff2" />
+    <Content Include="Content\AdminLayouts\css\bootstrap.min.css.map" />
+    <Content Include="Content\AdminLayouts\css\boxicons\fonts\boxicons.eot" />
+    <Content Include="Content\AdminLayouts\css\boxicons\fonts\boxicons.ttf" />
+    <Content Include="Content\AdminLayouts\css\boxicons\fonts\boxicons.woff" />
+    <Content Include="Content\AdminLayouts\css\boxicons\fonts\boxicons.woff2" />
+    <Content Include="Content\AdminLayouts\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\AdminLayouts\js\jquery-3.6.3.min.map" />
+    <Content Include="Content\img\photo-1582407947304-fd86f028f716.avif" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <Content Include="Content\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <Content Include="Content\lib\bootstrap\LICENSE" />
+    <Content Include="Content\lib\jquery-validation\LICENSE.md" />
+    <Content Include="Content\lib\jquery\dist\jquery.min.map" />
     <None Include="packages.config" />
+    <Content Include="Views\Admin\AcSliders.cshtml" />
+    <Content Include="Views\Admin\AcSlidersCreate.cshtml" />
+    <Content Include="Views\Admin\AcSlidersEdit.cshtml" />
+    <Content Include="Views\Admin\AcTestimonials.cshtml" />
+    <Content Include="Views\Admin\AcTestimonialsCreate.cshtml" />
+    <Content Include="Views\Admin\AcTestimonialsEdit.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Settings.cshtml" />
+    <Content Include="Views\DistanceMaster\BankGovCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\BankGovEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\BankGovList.cshtml" />
+    <Content Include="Views\DistanceMaster\BankPvtCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\BankPvtEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\BankPvtList.cshtml" />
+    <Content Include="Views\DistanceMaster\BusCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\BusEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\BusList.cshtml" />
+    <Content Include="Views\DistanceMaster\DmOfficeCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\DmOfficeEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\DmOfficeList.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalGovCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalGovEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalGovList.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalPvtCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalPvtEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\HospitalPvtList.cshtml" />
+    <Content Include="Views\DistanceMaster\MarketCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\MarketEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\MarketList.cshtml" />
+    <Content Include="Views\DistanceMaster\PublicTptCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\PublicTptEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\PublicTptList.cshtml" />
+    <Content Include="Views\DistanceMaster\RailwayCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\RailwayEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\RailwayList.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolGovCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolGovEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolGovList.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolPvtCreate.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolPvtEdit.cshtml" />
+    <Content Include="Views\DistanceMaster\SchoolPvtList.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\ListingWhatsapp.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\OwnerLandlords.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\PropertyDetails.cshtml" />
+    <Content Include="Views\Home\PropertyList.cshtml" />
+    <Content Include="Views\Home\Tenats.cshtml" />
+    <Content Include="Views\Home\TermsOfUse.cshtml" />
+    <Content Include="Views\Home\Testimonials.cshtml" />
+    <Content Include="Views\LocationMaster\CityMasterCreate.cshtml" />
+    <Content Include="Views\LocationMaster\CityMasterEdit.cshtml" />
+    <Content Include="Views\LocationMaster\CityMasterList.cshtml" />
+    <Content Include="Views\LocationMaster\ColonyMuhallaCreate.cshtml" />
+    <Content Include="Views\LocationMaster\ColonyMuhallaEdit.cshtml" />
+    <Content Include="Views\LocationMaster\ColonyMuhallaList.cshtml" />
+    <Content Include="Views\LocationMaster\CountryMasterCreate.cshtml" />
+    <Content Include="Views\LocationMaster\CountryMasterEdit.cshtml" />
+    <Content Include="Views\LocationMaster\CountryMasterList.cshtml" />
+    <Content Include="Views\LocationMaster\NearByCreate.cshtml" />
+    <Content Include="Views\LocationMaster\NearByEdit.cshtml" />
+    <Content Include="Views\LocationMaster\NearByList.cshtml" />
+    <Content Include="Views\LocationMaster\StateMasterCreate.cshtml" />
+    <Content Include="Views\LocationMaster\StateMasterEdit.cshtml" />
+    <Content Include="Views\LocationMaster\StateMasterList.cshtml" />
+    <Content Include="Views\MyUser\Create.cshtml" />
+    <Content Include="Views\MyUser\Edit.cshtml" />
+    <Content Include="Views\MyUser\Index.cshtml" />
+    <Content Include="Views\ProMain\ProAllList.cshtml" />
+    <Content Include="Views\ProMain\PropertyCreate.cshtml" />
+    <Content Include="Views\ProMain\ProRentList.cshtml" />
+    <Content Include="Views\ProMain\ProSaleList.cshtml" />
+    <Content Include="Views\ProMaster\BHKTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\BHKTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\BHKTypeList.cshtml" />
+    <Content Include="Views\ProMaster\CookingItemCreate.cshtml" />
+    <Content Include="Views\ProMaster\CookingItemEdit.cshtml" />
+    <Content Include="Views\ProMaster\CookingItemList.cshtml" />
+    <Content Include="Views\ProMaster\ElectricityCreate.cshtml" />
+    <Content Include="Views\ProMaster\ElectricityEdit.cshtml" />
+    <Content Include="Views\ProMaster\ElectricityList.cshtml" />
+    <Content Include="Views\ProMaster\ElevatorTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\ElevatorTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\ElevatorTypeList.cshtml" />
+    <Content Include="Views\ProMaster\FirstPriorityCreate.cshtml" />
+    <Content Include="Views\ProMaster\FirstPriorityEdit.cshtml" />
+    <Content Include="Views\ProMaster\FirstPriorityList.cshtml" />
+    <Content Include="Views\ProMaster\FloorTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\FloorTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\FloorTypeList.cshtml" />
+    <Content Include="Views\ProMaster\FurnishedItemCreate.cshtml" />
+    <Content Include="Views\ProMaster\FurnishedItemEdit.cshtml" />
+    <Content Include="Views\ProMaster\FurnishedItemList.cshtml" />
+    <Content Include="Views\ProMaster\LpgCreate.cshtml" />
+    <Content Include="Views\ProMaster\LpgEdit.cshtml" />
+    <Content Include="Views\ProMaster\LpgList.cshtml" />
+    <Content Include="Views\ProMaster\ParkingTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\ParkingTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\ParkingTypeList.cshtml" />
+    <Content Include="Views\ProMaster\ParkingVisitorCreate.cshtml" />
+    <Content Include="Views\ProMaster\ParkingVisitorEdit.cshtml" />
+    <Content Include="Views\ProMaster\ParkingVisitorList.cshtml" />
+    <Content Include="Views\ProMaster\PropertyTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\PropertyTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\PropertyTypeList.cshtml" />
+    <Content Include="Views\ProMaster\PropertyVariantCreate.cshtml" />
+    <Content Include="Views\ProMaster\PropertyVariantEdit.cshtml" />
+    <Content Include="Views\ProMaster\PropertyVariantList.cshtml" />
+    <Content Include="Views\ProMaster\ReligionCreate.cshtml" />
+    <Content Include="Views\ProMaster\ReligionEdit.cshtml" />
+    <Content Include="Views\ProMaster\ReligionList.cshtml" />
+    <Content Include="Views\ProMaster\RoofCreate.cshtml" />
+    <Content Include="Views\ProMaster\RoofEdit.cshtml" />
+    <Content Include="Views\ProMaster\RoofList.cshtml" />
+    <Content Include="Views\ProMaster\StairCreate.cshtml" />
+    <Content Include="Views\ProMaster\StairEdit.cshtml" />
+    <Content Include="Views\ProMaster\StairList.cshtml" />
+    <Content Include="Views\ProMaster\ToiletTypeCreate.cshtml" />
+    <Content Include="Views\ProMaster\ToiletTypeEdit.cshtml" />
+    <Content Include="Views\ProMaster\ToiletTypeList.cshtml" />
+    <Content Include="Views\ProMaster\WaterSupplyCreate.cshtml" />
+    <Content Include="Views\ProMaster\WaterSupplyEdit.cshtml" />
+    <Content Include="Views\ProMaster\WaterSupplyList.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -110,8 +452,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -143,7 +483,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

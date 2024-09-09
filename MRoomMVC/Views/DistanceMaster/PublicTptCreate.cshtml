@@ -1,0 +1,114 @@
+
+@model PublicTpt
+@{
+    ViewBag.Title = "PublicTpt Create";
+    ViewBag.PageTitle = "PublicTpt Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form action="/DistanceMaster/PublicTptCreate" method="post" class="row g-0">
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.CountryId, "Select Country", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.CountryId, (IEnumerable<SelectListItem>)ViewBag.LCountryName, "Select Country", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.CountryId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.StateId, "Select State", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.StateId, new List<SelectListItem> { new SelectListItem { Text = "Select State", Value = "" }, new SelectListItem { Text = "Select Country First", Value = "" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.StateId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.CityId, "Select City", new { @class = "from-label mb-2" })
+                            @Html.DropDownListFor(m => m.CityId, new List<SelectListItem> { new SelectListItem { Text = "Select City", Value = "" }, new SelectListItem { Text = "Select State First", Value = "" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.CityId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Name, "Name", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <label for="Status" class="from-label mb-2">Select Status</label>
+                            @Html.DropDownListFor(m => m.Status, new List<SelectListItem> { new SelectListItem { Text = "Active", Value = "Active" }, new SelectListItem { Text = "InActive", Value = "InActive" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#CountryId").on("change", function () {
+                GetStates($(this).val(), $("#StateId"));
+            });
+
+            $("#StateId").on("change", function () {
+                GetCities($("#CountryId").val(), $(this).val(), $("#CityId"));
+            });
+        });
+
+        function GetStates(countryid, stateEle) {
+            let country = countryid;
+            $.ajax({
+                url: "/LocationMaster/GetStates",
+                dataType: 'json',
+                data: { countryId: country },
+                success: function (res) {
+                    let $stateName = stateEle;
+                    $stateName.empty();
+                    $stateName.append($("<option>").val("").text("Select State"));
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $stateName.append($("<option>").val(item.Id).text(item.Name));
+                        });
+                    } else {
+                        $stateName.append($("<option>").val("").text("No states available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving stateNames.");
+                }
+            });
+        }
+
+        function GetCities(countryId, stateId, cityEle) {
+            let conName = countryId;
+            let stateName = stateId;
+            $.ajax({
+                url: "/LocationMaster/GetCities",
+                dataType: 'json',
+                data: { countryId: conName, stateId: stateName },
+                success: function (res) {
+                    let $city = cityEle;
+                    $city.empty(); // Clear existing options
+                    $city.append($("<option>").val("").text("Select City"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $city.append($("<option>").val(item.Id).text(item.Name));
+                        });
+                    } else {
+                        $city.append($("<option>").val("").text("No cities available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+    </script>
+}
