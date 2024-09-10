@@ -21,6 +21,8 @@ namespace MRoomMVC.Controllers
             ViewBag.BHK1 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "1 BHK").Take(8).ToList();
             ViewBag.BHK2 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "2 BHK").Take(8).ToList();
             ViewBag.BHK3 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "3 BHK").Take(8).ToList();
+            ViewBag.BHKType = new SelectList(db.BHKTypes.AsNoTracking(), "BHKName", "BHKName"); ;
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
             return View();
         }
 
@@ -65,7 +67,7 @@ namespace MRoomMVC.Controllers
             }
             List<PropertyDetail> result = query.ToList();
             ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
-            ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
+            //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
             ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
             return View(result);
         }
@@ -81,18 +83,48 @@ namespace MRoomMVC.Controllers
             {
                 query = query.Where(x => x.CityName == City);
             }
+            var query2 = query.AsEnumerable();
             if (!string.IsNullOrEmpty(Budget))
             {
                 int budgetval = Convert.ToInt32(Budget);
-                query = query.Where(x => Convert.ToInt32(x.MonthlyRent) >= budgetval);
+                query2 = query2.Where(x => Convert.ToInt32(x.MonthlyRent) >= budgetval);
             }
             if (!string.IsNullOrEmpty(Floor))
             {
-                query = query.Where(x => x.FloorTypeName == Floor);
+                query2 = query2.Where(x => x.FloorTypeName == Floor);
             }
+            List<PropertyDetail> result = query2.ToList();
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
+            //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
+            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
+            return View("PropertyList", result);
+        }
+
+        public ActionResult PropertySearch(string BHKType, string City, string NearBy)
+        {
+            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking();
+            if (!string.IsNullOrEmpty(BHKType))
+            {
+                query = query.Where(x => x.BHKTypeName == BHKType);
+            }
+            if (!string.IsNullOrEmpty(City))
+            {
+                query = query.Where(x => x.CityName == City);
+            }
+            if (!string.IsNullOrEmpty(NearBy))
+            {
+                int nid = Convert.ToInt32(NearBy);
+                var near = db.NearBies.FirstOrDefault(x => x.Id == nid);
+                if (near != null)
+                {
+                    var d_Nears = db.PD_Near.Where(x => x.NearById == near.Id).Select(x => x.PropertyId);
+                    query = query.Where(x => d_Nears.Contains(x.Id));
+                }
+            }
+
             List<PropertyDetail> result = query.ToList();
             ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
-            ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
+            //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
             ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
             return View("PropertyList", result);
         }

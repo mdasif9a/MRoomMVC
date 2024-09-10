@@ -75,10 +75,7 @@
                 <label for="Colony" class="form-label">Colony / Muhalla :</label>
                 <select name="Colony" id="Colony" class="form-select">
                     <option value="">Select Colony / Muhalla</option>
-                    @foreach (SelectListItem item in ViewBag.Colony)
-                    {
-                        <option value="@item.Value">@item.Text</option>
-                    }
+                    <option value="">Select City First</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -137,3 +134,38 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#City').on('change', function () {
+                let cityname = $(this).val();
+                GetColony(cityname);
+            });
+        });
+
+        function GetColony(cityname) {
+            $.ajax({
+                url: "/ProMain/GetColony",
+                dataType: 'json',
+                data: { cityname: cityname },
+                success: function (res) {
+                    let $ele = $("#Colony");
+                    $ele.empty(); // Clear existing options
+                    $ele.append($("<option>").val("").text("Select Colony / Muhalla"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $ele.append($("<option>").val(item).text(item));
+                        });
+                    } else {
+                        $ele.append($("<option>").val("").text("No Colony available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+    </script>
+}

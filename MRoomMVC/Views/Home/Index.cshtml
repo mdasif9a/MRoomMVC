@@ -1,4 +1,8 @@
-﻿@section Styles {
+﻿@{
+    bool isFirst = true;
+}
+
+@section Styles {
     <style>
         .carousel.slide .carousel-item img {
             max-height: 500px;
@@ -75,9 +79,10 @@
     <div class="carousel-inner">
         @foreach (Slider item in ViewBag.Slider)
         {
-            <div class="carousel-item active">
+            <div class="carousel-item @(isFirst ? "active" : "")">
                 <img src="@item.FilePath" class="d-block w-100" alt="Slide 1">
             </div>
+            isFirst = false;
         }
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -103,174 +108,50 @@
                                 <button class="nav-link active" id="pills-rent-tab" data-bs-toggle="pill" data-bs-target="#pills-rent" type="button" role="tab" aria-controls="pills-rent" aria-selected="true">Rent</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Sale</button>
+                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-rent" type="button" role="tab" aria-controls="pills-rent" aria-selected="false">Sale</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Job</button>
+                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-rent" type="button" role="tab" aria-controls="pills-rent" aria-selected="false">Job</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">City Directory</button>
+                                <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-rent" type="button" role="tab" aria-controls="pills-rent" aria-selected="false">City Directory</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
                             <hr />
                             <div class="tab-pane fade show active" id="pills-rent" role="tabpanel" aria-labelledby="pills-rent-tab" tabindex="0">
-                                <form>
-                                    <input type="hidden" name="SearchTab" value="Rent" />
+                                <form action="/Home/PropertySearch" method="get">
                                     <div class="row justify-content-evenly align-items-center">
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label">Type Of Houseing/ Looking For</label>
-                                                <select class="form-select">
+                                                <select class="form-select" name="BHKType" id="BHKType">
                                                     <option value="">Select Type of Houseung</option>
-                                                    <option value="1BHK">1BHK</option>
-                                                    <option value="2BHK">2BHK</option>
-                                                    <option value="3BHK">3BHK</option>
+                                                    @foreach (SelectListItem item in ViewBag.BHKType)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label">City Name</label>
-                                                <select class="form-select">
+                                                <select class="form-select" name="City" id="City">
                                                     <option value="">Select City</option>
-                                                    <option value="Motihari">Motihari</option>
-                                                    <option value="Patna">Patna</option>
-                                                    <option value="Gaya">Gaya</option>
+                                                    @foreach (SelectListItem item in ViewBag.City)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label">Near By</label>
-                                                <select class="form-select">
+                                                <select class="form-select" name="NearBy" id="NearBy">
                                                     <option value="">Select Near By</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 align-self-end">
-                                            <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-                                <form>
-                                    <input type="hidden" name="SearchTab" value="Rent" />
-                                    <div class="row justify-content-evenly align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Type Of Houseing/ Looking For</label>
-                                                <select class="form-select">
-                                                    <option value="">Select Type of Houseung</option>
-                                                    <option value="1BHK">1BHK</option>
-                                                    <option value="2BHK">2BHK</option>
-                                                    <option value="3BHK">3BHK</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">City Name</label>
-                                                <select class="form-select">
-                                                    <option value="">Select City</option>
-                                                    <option value="Motihari">Motihari</option>
-                                                    <option value="Patna">Patna</option>
-                                                    <option value="Gaya">Gaya</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Near By</label>
-                                                <select class="form-select">
-                                                    <option value="">Select Near By</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 align-self-end">
-                                            <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
-                                <form>
-                                    <input type="hidden" name="SearchTab" value="Rent" />
-                                    <div class="row justify-content-evenly align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Type Of Houseing/ Looking For</label>
-                                                <select class="form-select">
-                                                    <option value="">Select Type of Houseung</option>
-                                                    <option value="1BHK">1BHK</option>
-                                                    <option value="2BHK">2BHK</option>
-                                                    <option value="3BHK">3BHK</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">City Name</label>
-                                                <select class="form-select">
-                                                    <option value="">Select City</option>
-                                                    <option value="Motihari">Motihari</option>
-                                                    <option value="Patna">Patna</option>
-                                                    <option value="Gaya">Gaya</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Near By</label>
-                                                <select class="form-select">
-                                                    <option value="">Select Near By</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 align-self-end">
-                                            <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
-                                <form>
-                                    <input type="hidden" name="SearchTab" value="Rent" />
-                                    <div class="row justify-content-evenly align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Type Of Houseing/ Looking For</label>
-                                                <select name="Type" class="form-select">
-                                                    <option value="">Select Type of Houseung</option>
-                                                    <option value="1BHK">1BHK</option>
-                                                    <option value="2BHK">2BHK</option>
-                                                    <option value="3BHK">3BHK</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">City Name</label>
-                                                <select name="City" class="form-select">
-                                                    <option value="">Select City</option>
-                                                    <option value="Motihari">Motihari</option>
-                                                    <option value="Patna">Patna</option>
-                                                    <option value="Gaya">Gaya</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Near By</label>
-                                                <select class="form-select">
-                                                    <option value="">Select Near By</option>
+                                                    <option value="">Select CityFirst</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -467,3 +348,38 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#City').on('change', function () {
+                let cityname = $(this).val();
+                GetNearBy(cityname);
+            });
+        });
+
+        function GetNearBy(cityname) {
+            $.ajax({
+                url: "/ProMain/GetNearBy",
+                dataType: 'json',
+                data: { cityname: cityname },
+                success: function (res) {
+                    let $ele = $("#NearBy");
+                    $ele.empty(); // Clear existing options
+                    $ele.append($("<option>").val("").text("Select Nearby"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $ele.append($("<option>").val(item.Id).text(item.NearByName));
+                        });
+                    } else {
+                        $ele.append($("<option>").val("").text("No NearBy available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+    </script>
+}
