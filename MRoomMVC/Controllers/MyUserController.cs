@@ -17,7 +17,7 @@ namespace MRoomMVC.Controllers
         // Users Login Crud Operations
         public ActionResult Index()
         {
-            List<UserLogin> users = db.UserLogins.ToList();
+            List<UserLogin> users = db.UserLogins.Where(x => x.Role != "Admin").ToList();
             return View(users);
         }
 

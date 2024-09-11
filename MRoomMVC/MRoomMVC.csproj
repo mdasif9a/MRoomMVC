@@ -207,6 +207,7 @@
     <Compile Include="Controllers\MyUserController.cs" />
     <Compile Include="Controllers\ProMainController.cs" />
     <Compile Include="Controllers\ProMasterController.cs" />
+    <Compile Include="Controllers\LandLordsController.cs" />
     <Compile Include="Controllers\RentalController.cs" />
     <Compile Include="Data\MRoomDbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,6 +258,7 @@
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\WaterSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ApprovePro.cs" />
     <Compile Include="ViewModels\BankGov.cs" />
     <Compile Include="ViewModels\BankPvt.cs" />
     <Compile Include="ViewModels\BusStand.cs" />
@@ -449,6 +451,12 @@
     <Content Include="Views\Rental\PropertyList.cshtml" />
     <Content Include="Views\Rental\PropertyCreate.cshtml" />
     <Content Include="Views\Rental\Settings.cshtml" />
+    <Content Include="Views\ProMain\ApproveProperty.cshtml" />
+    <Content Include="Views\ProMain\ApproveCreate.cshtml" />
+    <Content Include="Views\LandLords\Index.cshtml" />
+    <Content Include="Views\LandLords\PropertyCreate.cshtml" />
+    <Content Include="Views\LandLords\PropertyList.cshtml" />
+    <Content Include="Views\LandLords\Settings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

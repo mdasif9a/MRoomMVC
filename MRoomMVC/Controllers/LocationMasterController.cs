@@ -9,6 +9,7 @@ using MRoomMVC.ViewModels;
 
 namespace MRoomMVC.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class LocationMasterController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
@@ -21,12 +22,13 @@ namespace MRoomMVC.Controllers
             ViewBag.LCountryName = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Id", "Name");
         }
 
+        [AllowAnonymous]
         public JsonResult GetStates(int countryId)
         {
             List<StateMaster> states = db.StateMasters.Where(x => x.CountryId == countryId).ToList();
             return Json(states, JsonRequestBehavior.AllowGet);
         }
-
+        [AllowAnonymous]
         public JsonResult GetCities(int countryId, int stateId)
         {
             List<CityMaster> cities = db.CityMasters.Where(x => x.StateId == stateId && x.CountryId == countryId).ToList();

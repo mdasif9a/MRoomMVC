@@ -11,7 +11,7 @@ using System.Web;
 namespace MRoomMVC.Controllers
 {
     [Authorize(Roles = "Admin, Rental, LandLords")]
-    public class RentalController : Controller
+    public class LandLordsController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
 

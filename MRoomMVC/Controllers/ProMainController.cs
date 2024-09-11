@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MRoomMVC.Data;
 using MRoomMVC.Models;
+using MRoomMVC.ViewModels;
 using System.IO;
 using System.Web;
 
@@ -14,7 +15,67 @@ namespace MRoomMVC.Controllers
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult ApproveProperty()
+        {
+            List<ApprovePro> approves = (from pd in db.PropertyDetails
+                                         join ur in db.UserLogins on pd.UserId equals ur.Id
+                                         select new ApprovePro
+                                         {
+                                             PropertyId = pd.PropertyId,
+                                             UserName = ur.Username,
+                                             Name = pd.Name,
+                                             CreatedDate = pd.CreatedDate,
+                                             IsActive = pd.IsActive,
+                                             ApprovedBy = pd.ApprovedBy,
+                                             UniqueName = pd.UniqueName,
+                                             VerifiedBy = pd.VerifiedBy
+                                         }).ToList();
+            return View(approves);
+        }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult ApproveCreate(string Pid)
+        {
+            if (string.IsNullOrEmpty(Pid))
+            {
+                return HttpNotFound();
+            }
+            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == Pid).FirstOrDefault();
+            ApprovePro approve = new ApprovePro
+            {
+                PropertyId = property.PropertyId,
+                ApprovedBy = property.ApprovedBy,
+                UniqueName = property.UniqueName,
+                VerifiedBy = property.VerifiedBy,
+                IsActive = property.IsActive
+            };
+            if (property == null)
+            {
+                return HttpNotFound();
+            }
+            return View(approve);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult ApproveCreate(ApprovePro approve)
+        {
+            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == approve.PropertyId).FirstOrDefault();
+            if (property == null)
+            {
+                return HttpNotFound();
+            }
+            property.ApprovedBy = approve.ApprovedBy;
+            property.UniqueName = approve.UniqueName;
+            property.VerifiedBy = approve.VerifiedBy;
+            property.IsActive = approve.IsActive;
+            db.Entry(property).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["datachange"] = "Property is Approved.";
+            return RedirectToAction("ApproveProperty");
+        }
+        [Authorize(Roles = "Admin")]
         public ActionResult ProAllList()
         {
             var result = db.PropertyDetails
@@ -24,18 +85,21 @@ namespace MRoomMVC.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ProSaleList()
         {
             List<PropertyDetail> properties = db.PropertyDetails.Where(x => x.PropertyFor == "Sell").AsNoTracking().ToList();
             return View(properties);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ProRentList()
         {
             List<PropertyDetail> properties = db.PropertyDetails.Where(x => x.PropertyFor == "Rent").AsNoTracking().ToList();
             return View(properties);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult PropertyCreate(string TypeFor = "")
         {
             PropertyDetail property = new PropertyDetail();
@@ -86,6 +150,7 @@ namespace MRoomMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult PropertyCreate(PropertyDetail property, HttpPostedFileBase imageInput1, HttpPostedFileBase imageInput2, HttpPostedFileBase imageInput3, HttpPostedFileBase imageInput4, HttpPostedFileBase imageInput5, HttpPostedFileBase imageInput6)
         {
             List<PD_Near> pD_Nears = new List<PD_Near>();
@@ -97,6 +162,7 @@ namespace MRoomMVC.Controllers
                 property.Image4 = SaveFile(imageInput4, "PropertyImages");
                 property.Image5 = SaveFile(imageInput5, "PropertyImages");
                 property.Image6 = SaveFile(imageInput6, "PropertyImages");
+                property.CreatedDate = DateTime.Today;
                 db.PropertyDetails.Add(property);
                 db.SaveChanges();
                 property.PropertyId = "MROOM" + property.BHKTypeName.Replace(" ", "") + property.Id.ToString("0000");
