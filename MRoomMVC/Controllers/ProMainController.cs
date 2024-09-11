@@ -57,25 +57,6 @@ namespace MRoomMVC.Controllers
             return View(approve);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public ActionResult ApproveCreate(ApprovePro approve)
-        {
-            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == approve.PropertyId).FirstOrDefault();
-            if (property == null)
-            {
-                return HttpNotFound();
-            }
-            property.ApprovedBy = approve.ApprovedBy;
-            property.UniqueName = approve.UniqueName;
-            property.VerifiedBy = approve.VerifiedBy;
-            property.IsActive = approve.IsActive;
-            db.Entry(property).State = EntityState.Modified;
-            db.SaveChanges();
-            TempData["datachange"] = "Property is Approved.";
-            return RedirectToAction("ApproveProperty");
-        }
-        [Authorize(Roles = "Admin")]
         public ActionResult ProAllList()
         {
             var result = db.PropertyDetails
