@@ -1,0 +1,60 @@
+﻿@model  ApprovePro
+@{
+    ViewBag.Title = "Property Approve";
+    ViewBag.PageTitle = "Property Approve";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="/ProMain/ApproveCreate" method="post">
+
+                    <h5 class="my-2">Office Use :</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.HiddenFor(m => m.PropertyId)
+                                @Html.LabelFor(m => m.ApprovedBy, htmlAttributes: new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.ApprovedBy, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ApprovedBy, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.UniqueName, htmlAttributes: new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.UniqueName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UniqueName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.VerifiedBy, htmlAttributes: new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.VerifiedBy, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VerifiedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.IsActive, "Status", htmlAttributes: new { @class = "form-label" })
+                                @Html.DropDownListFor(m => m.IsActive, new SelectList(new List<SelectListItem>{
+            new SelectListItem { Text = "Active", Value = "true" },
+            new SelectListItem { Text = "InActive", Value = "false" }
+        }, "Value", "Text"),
+        new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

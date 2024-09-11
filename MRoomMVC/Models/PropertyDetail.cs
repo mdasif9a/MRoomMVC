@@ -96,7 +96,7 @@ namespace MRoomMVC.Models
         public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         [Required]
         public string BHKTypeName { get; set; }
         [Required]

@@ -17,10 +17,10 @@ namespace MRoomMVC.Controllers
         {
             ViewBag.Slider = db.Sliders.AsNoTracking().OrderByDescending(x => x.Id).Take(8).ToList();
             ViewBag.Testimonial = db.Testimonials.AsNoTracking().OrderByDescending(x => x.Id).Take(8).ToList();
-            ViewBag.CommercialShop = db.PropertyDetails.AsNoTracking().Where(x => x.PropertyVariantName == "SHOP").Take(8).ToList();
-            ViewBag.BHK1 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "1 BHK").Take(8).ToList();
-            ViewBag.BHK2 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "2 BHK").Take(8).ToList();
-            ViewBag.BHK3 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "3 BHK").Take(8).ToList();
+            ViewBag.CommercialShop = db.PropertyDetails.AsNoTracking().Where(x => x.PropertyVariantName == "SHOP" && x.IsActive).Take(8).ToList();
+            ViewBag.BHK1 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "1 BHK" && x.IsActive).Take(8).ToList();
+            ViewBag.BHK2 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "2 BHK" && x.IsActive).Take(8).ToList();
+            ViewBag.BHK3 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "3 BHK" && x.IsActive).Take(8).ToList();
             ViewBag.BHKType = new SelectList(db.BHKTypes.AsNoTracking(), "BHKName", "BHKName"); ;
             ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
             return View();
@@ -48,7 +48,7 @@ namespace MRoomMVC.Controllers
 
         public ActionResult PropertyList(string Name = "")
         {
-            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking();
+            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking().Where(x => x.IsActive);
             if (Name == "CommercialShop")
             {
                 query = query.Where(x => x.PropertyVariantName == "SHOP");
@@ -74,7 +74,7 @@ namespace MRoomMVC.Controllers
 
         public ActionResult PropertyListFilter(string Colony, string City, string Budget, string Floor)
         {
-            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking();
+            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking().Where(x => x.IsActive); ;
             if (!string.IsNullOrEmpty(Colony))
             {
                 query = query.Where(x => x.ColonyName == Colony);
@@ -102,7 +102,7 @@ namespace MRoomMVC.Controllers
 
         public ActionResult PropertySearch(string BHKType, string City, string NearBy)
         {
-            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking();
+            IQueryable<PropertyDetail> query = db.PropertyDetails.AsNoTracking().Where(x => x.IsActive); ;
             if (!string.IsNullOrEmpty(BHKType))
             {
                 query = query.Where(x => x.BHKTypeName == BHKType);
@@ -169,14 +169,25 @@ namespace MRoomMVC.Controllers
         public ActionResult Login(UserLogin log, string returnUrl)
         {
             UserLogin user1 = db.UserLogins.Where(x => x.Username == log.Username && x.Password == log.Password).FirstOrDefault();
-            if (user1 != null && user1.Role == "Admin")
+            if (user1 != null)
             {
                 FormsAuthentication.SetAuthCookie(user1.Username, user1.IsRemember);
                 if (!String.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
-                return Redirect("/Admin");
+                if (user1.Role == "Admin")
+                {
+                    return Redirect("/Admin");
+                }
+                else if (user1.Role == "Rental")
+                {
+                    return Redirect("/Rental");
+                }
+                else if (user1.Role == "LandLords")
+                {
+                    return Redirect("/LandLords");
+                }
             }
             TempData["datachange"] = "Invalid Username or Password.";
             return View(log);

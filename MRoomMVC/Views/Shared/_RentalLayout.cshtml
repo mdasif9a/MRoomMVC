@@ -7,7 +7,7 @@
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     @*<link href="/Content/assets/img/logo.jpeg" rel="icon">
-    <link href="/Content/assets/img/logo.jpeg" rel="apple-touch-icon">*@
+        <link href="/Content/assets/img/logo.jpeg" rel="apple-touch-icon">*@
     <link href="/Content/AdminLayouts/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="/Content/AdminLayouts/css/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -82,26 +82,17 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#propertyadd" data-bs-toggle="collapse" href="#" aria-expanded="false">
-                    <i class="bi bi-building-add"></i><span>My Properties</span><i class="bi bi-chevron-left ms-auto"></i>
+                <a class="nav-link" href="/Rental/PropertyCreate">
+                    <i class="bi bi-building"></i>
+                    <span>New Property Listing</span>
                 </a>
-                <ul id="propertyadd" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Rental/PropertyCreate">
-                            <i class="bi bi-circle"></i>
-                            <span>New Property Listing</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Rental/PropertyList">
-                            <i class="bi bi-circle"></i>
-                            <span>All Listing Details</span>
-                        </a>
-                    </li>
-
-                </ul>
+            <li class="nav-item">
+                <a class="nav-link" href="/Rental/PropertyList">
+                    <i class="bi bi-building"></i>
+                    <span>All Listing Details</span>
+                </a>
             </li>
 
             <li class="nav-item">

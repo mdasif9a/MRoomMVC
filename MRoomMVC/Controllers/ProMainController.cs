@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MRoomMVC.Data;
 using MRoomMVC.Models;
+using MRoomMVC.ViewModels;
 using System.IO;
 using System.Web;
 
@@ -14,6 +15,63 @@ namespace MRoomMVC.Controllers
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
 
+        public ActionResult ApproveProperty()
+        {
+            List<ApprovePro> approves = (from pd in db.PropertyDetails
+                                         join ur in db.UserLogins on pd.UserId equals ur.Id
+                                         select new ApprovePro
+                                         {
+                                             PropertyId = pd.PropertyId,
+                                             UserName = ur.Username,
+                                             Name = pd.Name,
+                                             CreatedDate = pd.CreatedDate,
+                                             IsActive = pd.IsActive,
+                                             ApprovedBy = pd.ApprovedBy,
+                                             UniqueName = pd.UniqueName,
+                                             VerifiedBy = pd.VerifiedBy
+                                         }).ToList();
+            return View(approves);
+        }
+
+        public ActionResult ApproveCreate(string Pid)
+        {
+            if (string.IsNullOrEmpty(Pid))
+            {
+                return HttpNotFound();
+            }
+            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == Pid).FirstOrDefault();
+            ApprovePro approve = new ApprovePro
+            {
+                PropertyId = property.PropertyId,
+                ApprovedBy = property.ApprovedBy,
+                UniqueName = property.UniqueName,
+                VerifiedBy = property.VerifiedBy,
+                IsActive = property.IsActive
+            };
+            if (property == null)
+            {
+                return HttpNotFound();
+            }
+            return View(approve);
+        }
+
+        [HttpPost]
+        public ActionResult ApproveCreate(ApprovePro approve)
+        {
+            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == approve.PropertyId).FirstOrDefault();
+            if (property == null)
+            {
+                return HttpNotFound();
+            }
+            property.ApprovedBy = approve.ApprovedBy;
+            property.UniqueName = approve.UniqueName;
+            property.VerifiedBy = approve.VerifiedBy;
+            property.IsActive = approve.IsActive;
+            db.Entry(property).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["datachange"] = "Property is Approved.";
+            return RedirectToAction("ApproveProperty");
+        }
 
         public ActionResult ProAllList()
         {
@@ -97,6 +155,7 @@ namespace MRoomMVC.Controllers
                 property.Image4 = SaveFile(imageInput4, "PropertyImages");
                 property.Image5 = SaveFile(imageInput5, "PropertyImages");
                 property.Image6 = SaveFile(imageInput6, "PropertyImages");
+                property.CreatedDate = DateTime.Today;
                 db.PropertyDetails.Add(property);
                 db.SaveChanges();
                 property.PropertyId = "MROOM" + property.BHKTypeName.Replace(" ", "") + property.Id.ToString("0000");
