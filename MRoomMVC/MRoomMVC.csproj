@@ -207,6 +207,7 @@
     <Compile Include="Controllers\MyUserController.cs" />
     <Compile Include="Controllers\ProMainController.cs" />
     <Compile Include="Controllers\ProMasterController.cs" />
+    <Compile Include="Controllers\RentalController.cs" />
     <Compile Include="Data\MRoomDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -443,6 +444,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_RentalLayout.cshtml" />
+    <Content Include="Views\Rental\Index.cshtml" />
+    <Content Include="Views\Rental\PropertyList.cshtml" />
+    <Content Include="Views\Rental\PropertyCreate.cshtml" />
+    <Content Include="Views\Rental\Settings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
