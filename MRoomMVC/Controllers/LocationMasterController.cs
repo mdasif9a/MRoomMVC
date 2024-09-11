@@ -9,12 +9,10 @@ using MRoomMVC.ViewModels;
 
 namespace MRoomMVC.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class LocationMasterController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
-
-
 
         [NonAction]
         private void MyCountries()
@@ -115,15 +113,15 @@ namespace MRoomMVC.Controllers
         public ActionResult StateMasterList()
         {
             var states = (from st in db.StateMasters
-                                        join ct in db.CountryMasters on st.CountryId equals ct.Id
-                                        select new StateMasterView
-                                        {
-                                            Id = st.Id,
-                                            CountryId = st.CountryId,
-                                            Name = st.Name,
-                                            Status = st.Status,
-                                            CountryName = ct.Name
-                                        }).ToList();
+                          join ct in db.CountryMasters on st.CountryId equals ct.Id
+                          select new StateMasterView
+                          {
+                              Id = st.Id,
+                              CountryId = st.CountryId,
+                              Name = st.Name,
+                              Status = st.Status,
+                              CountryName = ct.Name
+                          }).ToList();
             return View(states);
         }
 
@@ -204,18 +202,18 @@ namespace MRoomMVC.Controllers
         public ActionResult CityMasterList()
         {
             var cities = (from cy in db.CityMasters
-                                       join st in db.StateMasters on cy.StateId equals st.Id
-                                       join ct in db.CountryMasters on cy.CountryId equals ct.Id
-                                       select new CityMasterView
-                                       {
-                                           Id = cy.Id,
-                                           StateId = cy.StateId,
-                                           CountryId = cy.CountryId,
-                                           Name = cy.Name,
-                                           Status = cy.Status,
-                                           StateName = st.Name,
-                                           CountryName = ct.Name,
-                                       }).ToList();
+                          join st in db.StateMasters on cy.StateId equals st.Id
+                          join ct in db.CountryMasters on cy.CountryId equals ct.Id
+                          select new CityMasterView
+                          {
+                              Id = cy.Id,
+                              StateId = cy.StateId,
+                              CountryId = cy.CountryId,
+                              Name = cy.Name,
+                              Status = cy.Status,
+                              StateName = st.Name,
+                              CountryName = ct.Name,
+                          }).ToList();
             return View(cities);
         }
 
@@ -299,23 +297,23 @@ namespace MRoomMVC.Controllers
         public ActionResult ColonyMuhallaList()
         {
             var muhallas = (from nb in db.ColonyMuhallas
-                                            join st in db.StateMasters on nb.StateId equals st.Id
-                                            join cy in db.CityMasters on nb.CityId equals cy.Id
-                                            join ct in db.CountryMasters on nb.CountryId equals ct.Id
-                                            select new ColonyMuhallaView
-                                            {
-                                                Id = nb.Id,
-                                                CountryId = nb.CountryId,
-                                                StateId = nb.StateId,
-                                                CityId = nb.CityId,
-                                                ColonyName = nb.ColonyName,
-                                                Status = nb.Status,
-                                                CountryName = ct.Name,
-                                                StateName = st.Name,
-                                                CityName = cy.Name,
-                                                PinCode = nb.PinCode,
-                                                Zone = nb.Zone
-                                            }).ToList();
+                            join st in db.StateMasters on nb.StateId equals st.Id
+                            join cy in db.CityMasters on nb.CityId equals cy.Id
+                            join ct in db.CountryMasters on nb.CountryId equals ct.Id
+                            select new ColonyMuhallaView
+                            {
+                                Id = nb.Id,
+                                CountryId = nb.CountryId,
+                                StateId = nb.StateId,
+                                CityId = nb.CityId,
+                                ColonyName = nb.ColonyName,
+                                Status = nb.Status,
+                                CountryName = ct.Name,
+                                StateName = st.Name,
+                                CityName = cy.Name,
+                                PinCode = nb.PinCode,
+                                Zone = nb.Zone
+                            }).ToList();
             return View(muhallas);
         }
 
@@ -400,21 +398,21 @@ namespace MRoomMVC.Controllers
         public ActionResult NearByList()
         {
             var nearbies = (from nb in db.NearBies
-                                     join st in db.StateMasters on nb.StateId equals st.Id
-                                     join cy in db.CityMasters on nb.CityId equals cy.Id
-                                     join ct in db.CountryMasters on nb.CountryId equals ct.Id
-                                     select new NearByView
-                                     {
-                                         Id = nb.Id,
-                                         CountryId = nb.CountryId,
-                                         StateId = nb.StateId,
-                                         CityId = nb.CityId,
-                                         NearByName = nb.NearByName,
-                                         Status = nb.Status,
-                                         CountryName = ct.Name,
-                                         StateName = st.Name,
-                                         CityName = cy.Name
-                                     }).ToList();
+                            join st in db.StateMasters on nb.StateId equals st.Id
+                            join cy in db.CityMasters on nb.CityId equals cy.Id
+                            join ct in db.CountryMasters on nb.CountryId equals ct.Id
+                            select new NearByView
+                            {
+                                Id = nb.Id,
+                                CountryId = nb.CountryId,
+                                StateId = nb.StateId,
+                                CityId = nb.CityId,
+                                NearByName = nb.NearByName,
+                                Status = nb.Status,
+                                CountryName = ct.Name,
+                                StateName = st.Name,
+                                CityName = cy.Name
+                            }).ToList();
             return View(nearbies);
         }
 
