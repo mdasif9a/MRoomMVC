@@ -7,10 +7,11 @@ using MRoomMVC.Data;
 using MRoomMVC.Models;
 using System.IO;
 using System.Web;
+using MRoomMVC.ViewModels;
 
 namespace MRoomMVC.Controllers
 {
-    [Authorize(Roles = "Admin, Rental, LandLords")]
+    [Authorize(Roles = "Admin, LandLords, LandLords")]
     public class LandLordsController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
@@ -108,6 +109,22 @@ namespace MRoomMVC.Controllers
                 TempData["datachange"] = "Property Type is Not Saved.";
             }
             return View(property);
+        }
+
+        public ActionResult StatusListing()
+        {
+            List<ApprovePro> approves = (from pd in db.PropertyDetails
+                                         select new ApprovePro
+                                         {
+                                             PropertyId = pd.PropertyId,
+                                             Name = pd.Name,
+                                             CreatedDate = pd.CreatedDate,
+                                             IsActive = pd.IsActive,
+                                             ApprovedBy = pd.ApprovedBy,
+                                             UniqueName = pd.UniqueName,
+                                             VerifiedBy = pd.VerifiedBy
+                                         }).ToList();
+            return View(approves);
         }
 
 

@@ -6,6 +6,7 @@ using System.Linq;
 using MRoomMVC.Data;
 using MRoomMVC.Models;
 using System.Web.Security;
+using MRoomMVC.ViewModels;
 
 namespace MRoomMVC.Controllers
 {
@@ -197,6 +198,57 @@ namespace MRoomMVC.Controllers
         {
             FormsAuthentication.SignOut();
             return Redirect("/Home/Login");
+        }
+
+        public ActionResult UserRegistration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserRegistration(UserDetailsView detailsView)
+        {
+            bool emailexist = db.UserDetails.Any(x => x.Email == detailsView.Email);
+            bool unameexist = db.UserLogins.Any(x => x.Username == detailsView.Username);
+            if (emailexist)
+            {
+                TempData["datachange"] = "Email is alraedy Exist";
+                return View(detailsView);
+            }
+
+            if (unameexist)
+            {
+                TempData["datachange"] = "Username is alraedy Exist";
+                return View(detailsView);
+            }
+            if (ModelState.IsValid)
+            {
+                UserDetails user = new UserDetails
+                {
+                    Name = detailsView.Name,
+                    Email = detailsView.Email,
+                    Mobile = detailsView.Mobile,
+                    Address = detailsView.Address,
+                    IsActive = true,
+                    CreatedDate = DateTime.Today
+                };
+
+                UserLogin login = new UserLogin
+                {
+                    Username = detailsView.Username,
+                    Password = detailsView.Password,
+                    Role = detailsView.Role
+                };
+                db.UserLogins.Add(login);
+                db.SaveChanges();
+                user.LoginId = login.Id;
+                db.UserDetails.Add(user);
+                db.SaveChanges();
+                TempData["datachange"] = "Regisration is sucessfully Added plz login with username and password.";
+                return RedirectToAction("Login");
+            }
+            TempData["datachange"] = "Invalid Data";
+            return View(detailsView);
         }
     }
 }

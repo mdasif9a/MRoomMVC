@@ -208,6 +208,7 @@
     <Compile Include="Controllers\ProMainController.cs" />
     <Compile Include="Controllers\ProMasterController.cs" />
     <Compile Include="Controllers\LandLordsController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\RentalController.cs" />
     <Compile Include="Data\MRoomDbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +256,7 @@
     <Compile Include="Models\StateMaster.cs" />
     <Compile Include="Models\Testimonial.cs" />
     <Compile Include="Models\ToiletType.cs" />
+    <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\WaterSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="ViewModels\SchoolGov.cs" />
     <Compile Include="ViewModels\SchoolPvt.cs" />
     <Compile Include="ViewModels\StateMaster.cs" />
+    <Compile Include="ViewModels\UserDetailsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -457,6 +460,9 @@
     <Content Include="Views\LandLords\PropertyCreate.cshtml" />
     <Content Include="Views\LandLords\PropertyList.cshtml" />
     <Content Include="Views\LandLords\Settings.cshtml" />
+    <Content Include="Views\Shared\_LandLordsLayout.cshtml" />
+    <Content Include="Views\LandLords\StatusListing.cshtml" />
+    <Content Include="Views\Home\UserRegistration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -466,6 +472,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Registration\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

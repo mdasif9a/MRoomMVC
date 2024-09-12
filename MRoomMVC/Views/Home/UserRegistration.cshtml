@@ -1,4 +1,4 @@
-﻿@model UserLogin
+﻿@model UserDetailsView
 @{
     Layout = null;
 }
@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Admin Login</title>
+    <title>User Registration</title>
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
           rel="stylesheet">
@@ -27,17 +27,40 @@
             <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                        <div class="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center">
                             <div class="card mb-3">
 
                                 <div class="card-body">
 
                                     <div class="pb-2">
-                                        <h5 class="card-title text-center text-primary pb-0 fs-4">Login to Your Account</h5>
-                                        <p class="text-center small">Enter your username & password to login</p>
+                                        <h5 class="card-title text-center text-primary pb-0 fs-4">Create Your Account</h5>
                                     </div>
 
-                                    <form class="row g-3" method="post">
+                                    <form action="/Home/UserRegistration" class="row g-3" method="post">
+
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Name, new { @class = "form-label text-start" })
+                                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Email, new { @class = "form-label text-start" })
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Mobile, new { @class = "form-label text-start" })
+                                            @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @type = "number" })
+                                            @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Address, new { @class = "form-label text-start" })
+                                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                        </div>
 
                                         <div class="col-12">
                                             @Html.LabelFor(m => m.Username, new { @class = "form-label text-start" })
@@ -52,17 +75,23 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Sign In</button>
+                                            @Html.LabelFor(m => m.Role, new { @class = "form-label text-start" })
+
+                                            @Html.DropDownListFor(m => m.Role, new List<SelectListItem> {
+                                                new SelectListItem { Text = "Select Role", Value = "" },
+                                                new SelectListItem { Text = "Rental", Value = "Rental" },
+                                                new SelectListItem { Text = "LandLords", Value = "LandLords" }
+                                            }, new { @class = "form-select" })
+
+                                            @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
                                         </div>
 
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+                                        </div>
                                         <div class="col-12 text-center">
-                                            <a href="/Home/UserRegistration" class="btn btn-primary w-100">Or Create a New Account/Registration</a>
+                                            <a href="/Home/Login" class="link-primary">Back To Login</a>
                                         </div>
-                                        <div class="col-12 text-center">
-                                            <a href="/" class="link-primary">Back To Home</a>
-                                        </div>
-
-
                                     </form>
 
                                 </div>

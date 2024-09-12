@@ -8,6 +8,7 @@ using MRoomMVC.Models;
 
 namespace MRoomMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MyUserController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();

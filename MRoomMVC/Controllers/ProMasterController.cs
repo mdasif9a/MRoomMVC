@@ -9,6 +9,7 @@ using MRoomMVC.ViewModels;
 
 namespace MRoomMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProMasterController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();

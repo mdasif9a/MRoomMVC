@@ -61,5 +61,6 @@ namespace MRoomMVC.Data
         public virtual DbSet<ElevatorType> ElevatorTypes { get; set; }
         public virtual DbSet<Testimonial> Testimonials { get; set; }
         public virtual DbSet<Slider> Sliders { get; set; }
+        public virtual DbSet<UserDetails> UserDetails { get; set; }
     }
 }
