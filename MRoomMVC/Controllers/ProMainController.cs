@@ -57,6 +57,7 @@ namespace MRoomMVC.Controllers
             return View(approve);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult ProAllList()
         {
             var result = db.PropertyDetails
@@ -84,7 +85,7 @@ namespace MRoomMVC.Controllers
         public ActionResult PropertyCreate(string TypeFor = "")
         {
             PropertyDetail property = new PropertyDetail();
-            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role != "Admin").ToList(), "Id", "Username");
+            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role == "LandLords").ToList(), "Id", "Username");
             ViewBag.LPropertyType = new SelectList(db.PropertyTypes.AsNoTracking().ToList(), "Id", "PropertyTypeName");
             ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "BHKName", "BHKName");
             ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");

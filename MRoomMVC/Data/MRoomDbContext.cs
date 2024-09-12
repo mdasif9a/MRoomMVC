@@ -62,5 +62,7 @@ namespace MRoomMVC.Data
         public virtual DbSet<Testimonial> Testimonials { get; set; }
         public virtual DbSet<Slider> Sliders { get; set; }
         public virtual DbSet<UserDetails> UserDetails { get; set; }
+        public virtual DbSet<WishList> WishLists { get; set; }
+        public virtual DbSet<BookingVisit> BookingVisits { get; set; }
     }
 }

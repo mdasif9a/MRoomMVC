@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BookingVisit>
+@{
+    ViewBag.Title = "Booking List";
+    ViewBag.PageTitle = "Booking List";
+    Layout = "~/Views/Shared/_RentalLayout.cshtml";
+    int i = 1;
+}
+<div class="card">
+    <div class="card-body table-responsive">
+        <table id="prpertytype" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr class="text-nowrap">
+                    <th>S. No</th>
+                    <th>Property Id</th>
+                    <th>Status</th>
+                    <th>View Property Details</th>
+                </tr>
+            </thead>
+            <tbody class="text-nowrap">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@item.PropertyId</td>
+                        <td>
+                            @if (@item.IsActive)
+                            {
+                                @:Approved
+                            }
+                            else
+                            {
+                                @:Not Approved
+                            }
+                        </td>
+                        <td>
+                            <a href="/Home/PropertyDetails?Pid=@item.PropertyId" class="btn btn-success btn-sm">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        $('#prpertytype').DataTable({
+            "scrollX": true
+        });
+
+    </script>
+}

@@ -1,0 +1,485 @@
+﻿@model PropertyDetail
+@{
+    ViewBag.Title = "Property Details";
+    ViewBag.PageTitle = "Property Details";
+    Layout = "~/Views/Shared/_RentalLayout.cshtml";
+}
+
+@section Head {
+    <style>
+        input[type="file"] {
+            display: block;
+        }
+
+        .imageThumb {
+            max-height: 75px;
+            border: 2px solid;
+            padding: 1px;
+            cursor: pointer;
+        }
+
+        .pip {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .remove:hover {
+                background: white;
+                color: black;
+            }
+    </style>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="/Rental/PropertySearch" method="post">
+
+                    <div class="row">
+                        <h5 class="my-2 fw-bold text-center">-- Search By Type --</h5>
+                        <hr />
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.PropertyTypeId, "Property Type", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.PropertyTypeId, (IEnumerable<SelectListItem>)ViewBag.LPropertyType, "Select Property Type", new { @class = "form-select", onchange = "GetPropertySub()" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.Size, "Size (in SqFt.) Approx.", new { @class = "from-label mb-2" })
+                                @Html.TextBoxFor(m => m.Size, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 class="my-2 fw-bold text-center">-- Search By Details --</h5>
+                        <hr />
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.PropertyVariantName, "Property Variant", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.PropertyVariantName, new List<SelectListItem> { new SelectListItem { Text = "Select Property Variant", Value = "" }, new SelectListItem { Text = "Select Property Type First", Value = "" } }, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.PropertyVariantName, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.BHKTypeName, "Select BHK", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.BHKTypeName, (IEnumerable<SelectListItem>)ViewBag.LBHK, "Select BHK", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.BHKTypeName, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ToiletTypeName, "Toilet Type :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ToiletTypeName, (IEnumerable<SelectListItem>)ViewBag.LToiletType, "Select ToiletType", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ToiletTypeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ParkingTypeName, "Parking Type :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ParkingTypeName, (IEnumerable<SelectListItem>)ViewBag.LParkingType, "Select Parking Type", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ParkingTypeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ParkingVisitorName, "Parking for Visitor :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ParkingVisitorName, (IEnumerable<SelectListItem>)ViewBag.LParkingVisitors, "Select Parking Visitor", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ParkingVisitorName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.FloorTypeName, "No Of Floors :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.FloorTypeName, (IEnumerable<SelectListItem>)ViewBag.LFloor, "Select No Of Floor", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.FloorTypeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.FirstPrioName, "First Priority :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.FirstPrioName, (IEnumerable<SelectListItem>)ViewBag.LFirstPriority, "Select First Priority", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.FirstPrioName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.NoOfMembers, "Enter Minimum Number of Members:", new { @class = "from-label mb-2" })
+                                @Html.TextBoxFor(m => m.NoOfMembers, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.NoOfMembers, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.CC_TV, "CC_TV Camera :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.CC_TV, new List<SelectListItem>{
+                                    new SelectListItem { Text = "Yes", Value = "Yes" },
+                                    new SelectListItem { Text = "No", Value = "No" }
+                                }, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.CC_TV, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 class="my-2 fw-bold text-center">-- Search By Location --</h5>
+                        <hr />
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.CountryName, "Country :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.CountryName, (IEnumerable<SelectListItem>)ViewBag.LCountry, "Select Country", new { @class = "form-select", onchange = "GetStates()" })
+
+                                @Html.ValidationMessageFor(m => m.CountryName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.StateName, "State :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.StateName, new List<SelectListItem> {
+                                    new SelectListItem { Text = "Select State", Value = "" },
+                                    new SelectListItem { Text = "Select Country First", Value = "" }
+                                }, new { @class = "form-select", onchange = "GetCities()" })
+                                @Html.ValidationMessageFor(m => m.StateName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.CityName, "City :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.CityName, new List<SelectListItem> { new SelectListItem { Text = "Select City", Value = "" }, new SelectListItem { Text = "Select State First", Value = "" } }, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.CityName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ColonyName, "Colony / Muhalla :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ColonyName, new List<SelectListItem> { new SelectListItem { Text = "Select Colony / Muhalla", Value = "" }, new SelectListItem { Text = "Select City First", Value = "" } }, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ColonyName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.NearBies, "Select Near Bies :", new { @class = "from-label mb-2" })
+                                @Html.ListBoxFor(m => m.NearBies, new List<SelectListItem> {
+    new SelectListItem { Text = "Select Near By", Value = "" },
+    new SelectListItem { Text = "Select City First", Value = "" }
+}, new { @class = "form-select", multiple = "multiple" })
+
+                                @Html.ValidationMessageFor(m => m.NearBies, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h5 class="my-2 fw-bold text-center">-- Search By Conditions --</h5>
+                        <hr />
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ReligionName, "Religion :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ReligionName, (IEnumerable<SelectListItem>)ViewBag.LReligion, "Select Religion", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ReligionName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.TimeIn, "Time Table (In):", new { @class = "from-label mb-2" })
+                                @Html.TextBoxFor(m => m.TimeIn, new { @type = "time", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TimeIn, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.TimeOut, "Time Table (Out):", new { @class = "from-label mb-2" })
+                                @Html.TextBoxFor(m => m.TimeOut, new { @type = "time", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TimeOut, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h5 class="my-2 fw-bold text-center">-- Search By Others --</h5>
+                        <hr />
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.FurnishedName, "Furnished :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.FurnishedName, (IEnumerable<SelectListItem>)ViewBag.LFurnished, "Select Furnished", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.FurnishedName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.WaterName, "Water :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.WaterName, (IEnumerable<SelectListItem>)ViewBag.LWater, "Select Water", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.WaterName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.LpgName, "LPG :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.LpgName, (IEnumerable<SelectListItem>)ViewBag.LLpg, "Select LPG", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.LpgName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ElectricityName, "Electricity :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.ElectricityName, (IEnumerable<SelectListItem>)ViewBag.LElectricity, "Select Electricity", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.ElectricityName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.StairName, "Stair :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.StairName, (IEnumerable<SelectListItem>)ViewBag.LStair, "Select Stair", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.StairName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.RoofName, "Roof :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.RoofName, (IEnumerable<SelectListItem>)ViewBag.LRoof, "Select Roof", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.RoofName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.CookingName, "Cooking :", new { @class = "from-label mb-2" })
+                                @Html.DropDownListFor(m => m.CookingName, (IEnumerable<SelectListItem>)ViewBag.LCooking, "Select Cooking", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.CookingName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#NearBies').select2({
+                containerCssClass: "form-select"
+            });
+            $('#CityName').on('change', function () {
+                let cityname = $(this).val();
+                GetColony(cityname);
+                GetNearBy(cityname);
+                GetDistanceMaster(cityname, 'RailwayName', '/ProMain/GetRailway');
+                GetDistanceMaster(cityname, 'BusName', '/ProMain/GetBus');
+                GetDistanceMaster(cityname, 'SchoolGovName', '/ProMain/GetSchoolGov');
+                GetDistanceMaster(cityname, 'SchoolPvtName', '/ProMain/GetSchoolPvt');
+                GetDistanceMaster(cityname, 'MarketName', '/ProMain/GetMarket');
+                GetDistanceMaster(cityname, 'PublicTptName', '/ProMain/GetPublicTpt');
+                GetDistanceMaster(cityname, 'DmOfficeName', '/ProMain/GetDmOffice');
+                GetDistanceMaster(cityname, 'BankPvtName', '/ProMain/GetBankPvt');
+                GetDistanceMaster(cityname, 'BankGovName', '/ProMain/GetBankGov');
+                GetDistanceMaster(cityname, 'HospitalGovName', '/ProMain/GetHospitalGov');
+                GetDistanceMaster(cityname, 'HospitalPvtName', '/ProMain/GetHospitalPvt');
+            });
+        });
+
+        function MyDemo(e) {
+            //alert('Some Things Are Under Constrution');
+        }
+        function GetPropertySub() {
+            //debugger;
+            let cval = $("#PropertyTypeId").val();
+            $.ajax({
+                url: "/ProMain/GetPropertySub",
+                dataType: 'json',
+                data: { main: cval },
+                success: function (res) {
+                    let $typeSub = $("#PropertyVariantName");
+                    $typeSub.empty();
+                    $typeSub.append($("<option>").val("").text("Select Property Variant"));
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            console.log(item);
+                            $typeSub.append($("<option>").val(item.PropertyVariantName).text(item.PropertyVariantName));
+                        });
+                    } else {
+                        $typeSub.append($("<option>").val("").text("No Variants available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving property subtypes.");
+                }
+            });
+        }
+
+        function GetStates() {
+            let country = $("#CountryName").val();
+            $.ajax({
+                url: "/ProMain/GetStates",
+                dataType: 'json',
+                data: { country: country },
+                success: function (res) {
+                    let $stateName = $("#StateName");
+                    $stateName.empty(); // Clear existing options
+                    $stateName.append($("<option>").val("").text("Select State"));
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $stateName.append($("<option>").val(item).text(item));
+                        });
+                    } else {
+                        $stateName.append($("<option>").val("").text("No stateNames available"));
+                    }
+
+                    // Clear the city dropdown if stateNames are updated
+                    $("#District").empty().append($("<option>").val("").text("Select State First"));
+                },
+                error: function () {
+                    alert("An error occurred while retrieving stateNames.");
+                }
+            });
+        }
+
+        function GetCities() {
+            let stateName = $("#StateName").val();
+            $.ajax({
+                url: "/ProMain/GetCities",
+                dataType: 'json',
+                data: { stateName: stateName },
+                success: function (res) {
+                    let $city = $("#CityName");
+                    $city.empty(); // Clear existing options
+                    $city.append($("<option>").val("").text("Select City"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $city.append($("<option>").val(item).text(item));
+                        });
+                    } else {
+                        $city.append($("<option>").val("").text("No cities available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+
+        function GetDistanceMaster(cityname, eleId, url) {
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                data: { cityname: cityname },
+                success: function (res) {
+                    let $ele = $("#" + eleId);
+                    $ele.empty(); // Clear existing options
+                    $ele.append($("<option>").val("").text("Select " + eleId));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $ele.append($("<option>").val(item).text(item));
+                        });
+                    } else {
+                        $ele.append($("<option>").val("").text("No " + eleId + " available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+
+
+        function GetColony(cityname) {
+            $.ajax({
+                url: "/ProMain/GetColony",
+                dataType: 'json',
+                data: { cityname: cityname },
+                success: function (res) {
+                    let $ele = $("#ColonyName");
+                    $ele.empty(); // Clear existing options
+                    $ele.append($("<option>").val("").text("Select Colony / Muhalla"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $ele.append($("<option>").val(item).text(item));
+                        });
+                    } else {
+                        $ele.append($("<option>").val("").text("No Colony available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+
+        function GetNearBy(cityname) {
+            $.ajax({
+                url: "/ProMain/GetNearBy",
+                dataType: 'json',
+                data: { cityname: cityname },
+                success: function (res) {
+                    let $ele = $("#NearBies");
+                    $ele.empty(); // Clear existing options
+                    $ele.append($("<option>").val("").text("Select Nearby"));
+
+                    if (res.length > 0) {
+                        $.each(res, function (index, item) {
+                            $ele.append($("<option>").val(item.Id).text(item.NearByName));
+                        });
+                    } else {
+                        $ele.append($("<option>").val("").text("No NearBy available"));
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while retrieving cities.");
+                }
+            });
+        }
+
+
+
+    </script>
+}
+
+

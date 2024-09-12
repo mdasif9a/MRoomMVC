@@ -217,6 +217,7 @@
     <Compile Include="Models\BankGov.cs" />
     <Compile Include="Models\BankPvt.cs" />
     <Compile Include="Models\BHKType.cs" />
+    <Compile Include="Models\BookingVisit.cs" />
     <Compile Include="Models\BusStand.cs" />
     <Compile Include="Models\CityMaster.cs" />
     <Compile Include="Models\ColonyMuhalla.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\WaterSupply.cs" />
+    <Compile Include="Models\WishList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ApprovePro.cs" />
     <Compile Include="ViewModels\BankGov.cs" />
@@ -463,6 +465,11 @@
     <Content Include="Views\Shared\_LandLordsLayout.cshtml" />
     <Content Include="Views\LandLords\StatusListing.cshtml" />
     <Content Include="Views\Home\UserRegistration.cshtml" />
+    <Content Include="Views\Rental\SearchProperty.cshtml" />
+    <Content Include="Views\Rental\MyWishList.cshtml" />
+    <Content Include="Views\Rental\BookVisitList.cshtml" />
+    <Content Include="Views\Rental\BookVisit.cshtml" />
+    <Content Include="Views\Rental\StatusConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

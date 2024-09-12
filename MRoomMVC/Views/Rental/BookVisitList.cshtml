@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PropertyDetail>
 @{
-    ViewBag.Title = "Property List";
-    ViewBag.PageTitle = "Property List";
+    ViewBag.Title = "My Property WishList";
+    ViewBag.PageTitle = "My Property WishList";
     Layout = "~/Views/Shared/_RentalLayout.cshtml";
     int i = 1;
 }
@@ -40,7 +40,7 @@
                             <a href="/Home/PropertyDetails?Pid=@item.PropertyId" class="btn btn-success btn-sm">View Details</a>
                         </td>
                         <td>
-                            <a href="/Rental/AddWishList?Pid=@item.PropertyId" class="btn btn-success btn-sm">Add To WishList</a>
+                            <a href="/Rental/BookVisit?Pid=@item.PropertyId" class="btn btn-success btn-sm">Booking A Visit</a>
                         </td>
                     </tr>
                 }

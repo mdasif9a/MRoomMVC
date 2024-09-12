@@ -1,0 +1,40 @@
+﻿@model BookingVisit
+@{
+    ViewBag.Title = "Booking A Visit";
+    ViewBag.PageTitle = "Booking A Visit";
+    Layout = "~/Views/Shared/_RentalLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="/Rental/BookingCreate" method="post">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.UserId)
+                            @Html.LabelFor(m => m.PropertyId, "Property Id :", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.PropertyId, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.PropertyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.BookingTime, "Enter Booking Date :", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.BookingTime, new { @class = "form-control", @type = "date" })
+                            @Html.ValidationMessageFor(m => m.BookingTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
