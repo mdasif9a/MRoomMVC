@@ -7,6 +7,7 @@ using MRoomMVC.Data;
 using MRoomMVC.Models;
 using System.Web.Security;
 using MRoomMVC.ViewModels;
+using System.Web;
 
 namespace MRoomMVC.Controllers
 {
@@ -170,9 +171,14 @@ namespace MRoomMVC.Controllers
         public ActionResult Login(UserLogin log, string returnUrl)
         {
             UserLogin user1 = db.UserLogins.Where(x => x.Username == log.Username && x.Password == log.Password).FirstOrDefault();
+
             if (user1 != null)
             {
-                FormsAuthentication.SetAuthCookie(user1.Username, user1.IsRemember);
+                var authTicket = new FormsAuthenticationTicket(1,user1.Username, db.ConvertUtcToIst(), db.ConvertUtcToIst().AddMinutes(20), user1.IsRemember, user1.Role);
+                string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                authCookie.Expires = db.ConvertUtcToIst().AddMinutes(20);
+                Response.Cookies.Add(authCookie);
                 if (!String.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -190,6 +196,7 @@ namespace MRoomMVC.Controllers
                     return Redirect("/LandLords");
                 }
             }
+
             TempData["datachange"] = "Invalid Username or Password.";
             return View(log);
         }
