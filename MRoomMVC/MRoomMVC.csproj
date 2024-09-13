@@ -470,6 +470,8 @@
     <Content Include="Views\Rental\BookVisitList.cshtml" />
     <Content Include="Views\Rental\BookVisit.cshtml" />
     <Content Include="Views\Rental\StatusConfirm.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

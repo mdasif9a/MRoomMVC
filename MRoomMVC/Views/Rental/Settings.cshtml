@@ -1,4 +1,4 @@
-﻿
+﻿@model UserDetailsView
 @{
     ViewBag.Title = "Change Password";
     ViewBag.PageTitle = "Change Password";
@@ -15,8 +15,9 @@
                         <input type="text" class="form-control" id="OldPassword" name="OldPassword" required>
                     </div>
                     <div class="col-12 mb-2">
-                        <label for="NewPassword" class="form-label">New Password</label>
-                        <input type="password" class="form-control" id="NewPassword" name="NewPassword" required>
+                        <label for="Password" class="form-label">New Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-12 mb-2">
                         <label for="ConfirmPassword" class="form-label">Confirm Password</label>
@@ -32,9 +33,11 @@
     </div>
 </div>
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+    <script src="/Content/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
         function CheckVal() {
-            if ($("#NewPassword").val() === $("#ConfirmPassword").val()) {
+            if ($("#Password").val() === $("#ConfirmPassword").val()) {
                 return true;
             } else {
                 alert('Password Not Match');

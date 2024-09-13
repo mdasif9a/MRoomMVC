@@ -259,12 +259,12 @@ namespace MRoomMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Settings(string OldPassword, string NewPassword)
+        public ActionResult Settings(string OldPassword, string Password)
         {
             var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
             if (login != null && login.Password == OldPassword)
             {
-                login.Password = NewPassword;
+                login.Password = Password;
                 db.Entry(login).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["datachange"] = "Your Password has Sucessfully Change";

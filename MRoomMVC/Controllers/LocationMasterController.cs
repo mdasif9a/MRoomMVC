@@ -48,6 +48,12 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult CountryMasterCreate(CountryMaster country)
         {
+            bool exists = db.CountryMasters.Any(x => x.Name == country.Name);
+            if (exists)
+            {
+                TempData["datachange"] = "Data Already Exists.";
+                return View(country);
+            }
             if (ModelState.IsValid)
             {
                 db.CountryMasters.Add(country);
@@ -134,6 +140,13 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult StateMasterCreate(StateMaster state1)
         {
+            bool exists = db.StateMasters.Any(x => x.Name == state1.Name && x.CountryId == state1.CountryId);
+            if (exists)
+            {
+                TempData["datachange"] = "Data Already Exists.";
+                MyCountries();
+                return View(state1);
+            }
             if (ModelState.IsValid)
             {
                 db.StateMasters.Add(state1);
@@ -226,6 +239,13 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult CityMasterCreate(CityMaster city)
         {
+            bool exists = db.CityMasters.Any(x => x.Name == city.Name && x.StateId == city.StateId);
+            if (exists)
+            {
+                TempData["datachange"] = "Data Already Exists.";
+                MyCountries();
+                return View(city);
+            }
             if (ModelState.IsValid)
             {
                 db.CityMasters.Add(city);
@@ -326,6 +346,13 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult ColonyMuhallaCreate(ColonyMuhalla muhalla)
         {
+            bool exists = db.ColonyMuhallas.Any(x => x.ColonyName == muhalla.ColonyName && x.CityId == muhalla.CityId);
+            if (exists)
+            {
+                TempData["datachange"] = "Data Already Exists.";
+                MyCountries();
+                return View(muhalla);
+            }
             if (ModelState.IsValid)
             {
                 db.ColonyMuhallas.Add(muhalla);
@@ -425,6 +452,13 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult NearByCreate(NearBy nearby)
         {
+            bool exists = db.NearBies.Any(x => x.NearByName == nearby.NearByName && x.CityId == nearby.CityId);
+            if (exists)
+            {
+                TempData["datachange"] = "Data Already Exists.";
+                MyCountries();
+                return View(nearby);
+            }
             if (ModelState.IsValid)
             {
                 db.NearBies.Add(nearby);

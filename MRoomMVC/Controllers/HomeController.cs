@@ -174,7 +174,7 @@ namespace MRoomMVC.Controllers
 
             if (user1 != null)
             {
-                var authTicket = new FormsAuthenticationTicket(1,user1.Username, db.ConvertUtcToIst(), db.ConvertUtcToIst().AddMinutes(20), user1.IsRemember, user1.Role);
+                var authTicket = new FormsAuthenticationTicket(1, user1.Username, db.ConvertUtcToIst(), db.ConvertUtcToIst().AddMinutes(20), user1.IsRemember, user1.Role);
                 string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
                 HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                 authCookie.Expires = db.ConvertUtcToIst().AddMinutes(20);
@@ -215,17 +215,17 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult UserRegistration(UserDetailsView detailsView)
         {
-            bool emailexist = db.UserDetails.Any(x => x.Email == detailsView.Email);
-            bool unameexist = db.UserLogins.Any(x => x.Username == detailsView.Username);
+            bool emailexist = db.UserDetails.Any(x => x.Email == detailsView.Email || x.Mobile == detailsView.Mobile);
+            bool unameexist = db.UserLogins.Any(x => x.Username == detailsView.Mobile);
             if (emailexist)
             {
-                TempData["datachange"] = "Email is alraedy Exist";
+                TempData["datachange"] = "Email/Mobile No. is alraedy Exist";
                 return View(detailsView);
             }
 
             if (unameexist)
             {
-                TempData["datachange"] = "Username is alraedy Exist";
+                TempData["datachange"] = "Mobile No. is alraedy Exist";
                 return View(detailsView);
             }
             if (ModelState.IsValid)
@@ -233,6 +233,8 @@ namespace MRoomMVC.Controllers
                 UserDetails user = new UserDetails
                 {
                     Name = detailsView.Name,
+                    FatherName = detailsView.FatherName,
+                    Dob = detailsView.Dob,
                     Email = detailsView.Email,
                     Mobile = detailsView.Mobile,
                     Address = detailsView.Address,
@@ -242,7 +244,7 @@ namespace MRoomMVC.Controllers
 
                 UserLogin login = new UserLogin
                 {
-                    Username = detailsView.Username,
+                    Username = detailsView.Mobile,
                     Password = detailsView.Password,
                     Role = detailsView.Role
                 };
@@ -251,11 +253,44 @@ namespace MRoomMVC.Controllers
                 user.LoginId = login.Id;
                 db.UserDetails.Add(user);
                 db.SaveChanges();
-                TempData["datachange"] = "Regisration is sucessfully Added plz login with username and password.";
+                TempData["datachange"] = "Regisration is sucessfully Added plz login with mobile no and password.";
                 return RedirectToAction("Login");
             }
             TempData["datachange"] = "Invalid Data";
             return View(detailsView);
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(string Mobile, DateTime Dob)
+        {
+            UserDetails userde = db.UserDetails.Where(x => x.Mobile == Mobile && x.Dob == Dob).FirstOrDefault();
+            if (userde == null)
+            {
+                TempData["datachange"] = "Incorrect mobileno or dob. Plz Check Again";
+                return View();
+            }
+            UserLogin user = db.UserLogins.Find(userde.LoginId);
+            ViewBag.LoginId = user.Id;
+            return View("ResetPassword");
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(int LoginId, string Password)
+        {
+            UserLogin user = db.UserLogins.Find(LoginId);
+            if (!string.IsNullOrEmpty(Password))
+            {
+                user.Password = Password;
+            }
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["datachange"] = "Your Password Is suceesfully Changed.";
+            return RedirectToAction("Login");
         }
     }
 }
