@@ -38,11 +38,9 @@
                         <td>@item.ParkingTypeName</td>
                         <td>@item.ParkingVisitorName</td>
                         <td>@item.ColonyName</td>
-                        <td></td>
-                        @* <td>
-                    <a href="/ProMaster/PropertyEdit/@item.Id" class="text-purple me-2"><i class="bi bi-pencil"></i></a>
-                    <a href="/ProMaster/PropertyDelete/@item.Id" onclick="return confirm('Are you sure want to delete?')" class="text-danger"><i class="bi bi-trash"></i></a>
-                    </td>*@
+                        <td>
+                            <a href="/Home/PropertyDetails?Pid=@item.PropertyId" target="_blank" class="btn btn-success btn-sm">View Details</a>
+                        </td>
                     </tr>
                 }
             </tbody>

@@ -23,7 +23,7 @@ namespace MRoomMVC.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 string imgurl = "/Content/" + subfolder + "/";
-                string filename = DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(file.FileName);
+                string filename = Guid.NewGuid() + DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(file.FileName);
                 string filePath = Server.MapPath(imgurl);
                 if (!Directory.Exists(filePath))
                 {
@@ -37,7 +37,14 @@ namespace MRoomMVC.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            int[] myints = new int[]
+            {
+                db.PropertyDetails.Count(),
+                db.PropertyDetails.Count(x => x.PropertyFor == "Sell"),
+                db.PropertyDetails.Count(x => x.PropertyFor == "Rent"),
+                db.UserLogins.Count(x => x.Role != "Admin")
+            };
+            return View(myints);
         }
 
         public ActionResult AcSliders()

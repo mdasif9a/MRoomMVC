@@ -1,4 +1,5 @@
-﻿@{
+﻿@model int[]
+@{
     ViewBag.Title = "LandLords Dashboard";
     ViewBag.PageTitle = "LandLords Dashboard";
     Layout = "~/Views/Shared/_LandLordsLayout.cshtml";
@@ -43,15 +44,17 @@
         <div class="card card-tale">
             <div class="card-body">
                 <p class="mb-4">Total Property</p>
-                @if (ViewBag.ProCount != null)
-                {
-                    <p class="fs-30 mb-2">@ViewBag.ProCount</p>
-                }
-                else
-                {
-                    <p class="fs-30 mb-2">0</p>
-                }
+                <p class="fs-30 mb-2">@Model[0]</p>
             </div>
         </div>
     </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card card-light-danger">
+            <div class="card-body">
+                <p class="mb-4">Approve Property</p>
+                <p class="fs-30 mb-2">@Model[1]</p>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -131,9 +131,9 @@ namespace MRoomMVC.Controllers
             return View("PropertyList", result);
         }
 
-        public ActionResult PropertyDetails(int Pid = 0)
+        public ActionResult PropertyDetails(string Pid = "")
         {
-            PropertyDetail detail = db.PropertyDetails.Find(Pid);
+            PropertyDetail detail = db.PropertyDetails.FirstOrDefault(x => x.PropertyId == Pid);
             if (detail == null)
             {
                 return HttpNotFound();

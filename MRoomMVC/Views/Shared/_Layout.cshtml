@@ -16,7 +16,7 @@
     <header class="position-sticky top-0" style="z-index:9999;">
         <nav class="navbar navbar-expand-md navbar-light border-bottom box-shadow" style="background-color:#fef900;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/Home/Index" >
+                <a class="navbar-brand" href="/Home/Index">
                     <img src="/Content/img/mylogo.png" alt="MRoom Logo" height="40" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
                             <a class="nav-link p-0" href="/Rental/MyWishList">
                                 <img src="/Content/img/shopping_bg.png" height="30" />
                             </a>
-                                                     
+
                         </li>
                         <li class="nav-item nav-item2">
                             <a href="/Home/LoginCheckPage" class="btn btn-sm btn-primary">Login/signup</a>
@@ -163,6 +163,14 @@
         });
     </script>
     <script src="/Content/js/site.js"></script>
+    @if (TempData["datachange"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert('@TempData["datachange"]');
+            });
+        </script>
+    }
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -141,7 +141,7 @@
                                 @Html.LabelFor(m => m.CC_TV, "CC_TV Camera :", new { @class = "from-label mb-2" })
                                 @Html.DropDownListFor(m => m.CC_TV, new List<SelectListItem>{
                                     new SelectListItem { Text = "Yes", Value = "Yes" },
-                                    new SelectListItem { Text = "No", Value = "No" }
+                                    new SelectListItem { Text = "No", Value = "No", Selected = true }
                                 }, new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.CC_TV, "", new { @class = "text-danger" })
                             </div>

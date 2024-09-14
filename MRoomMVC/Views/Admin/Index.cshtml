@@ -1,4 +1,5 @@
-﻿@{
+﻿@model int[]
+@{
     ViewBag.Title = "Admin Dashboard";
     ViewBag.PageTitle = "Admin Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -43,7 +44,7 @@
         <div class="card card-tale">
             <div class="card-body">
                 <p class="mb-4">Total Property</p>
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">@Model[0]</p>
             </div>
         </div>
     </div>
@@ -51,7 +52,7 @@
         <div class="card card-dark-blue">
             <div class="card-body">
                 <p class="mb-4">Sell Property</p>
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">@Model[1]</p>
             </div>
         </div>
     </div>
@@ -59,7 +60,7 @@
         <div class="card card-light-blue">
             <div class="card-body">
                 <p class="mb-4">Rent Property</p>
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">@Model[2]</p>
             </div>
         </div>
     </div>
@@ -67,7 +68,7 @@
         <div class="card card-light-danger">
             <div class="card-body">
                 <p class="mb-4">Total Users</p>
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">@Model[3]</p>
             </div>
         </div>
     </div>

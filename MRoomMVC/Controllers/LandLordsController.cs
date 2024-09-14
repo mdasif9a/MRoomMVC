@@ -22,7 +22,7 @@ namespace MRoomMVC.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 string imgurl = "/Content/" + subfolder + "/";
-                string filename = DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(file.FileName);
+                string filename = Guid.NewGuid() + DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(file.FileName);
                 string filePath = Server.MapPath(imgurl);
                 if (!Directory.Exists(filePath))
                 {
@@ -37,9 +37,12 @@ namespace MRoomMVC.Controllers
         public ActionResult Index()
         {
             var usercurrent = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
-            int propertiesct = db.PropertyDetails.Where(x => x.UserId == usercurrent.Id).AsNoTracking().Count();
-            ViewBag.ProCount = propertiesct;
-            return View();
+            int[] myints = new int[]
+            {
+                db.PropertyDetails.Count(x => x.UserId == usercurrent.Id),
+                db.PropertyDetails.Count(x => x.UserId == usercurrent.Id && x.IsActive),
+            };
+            return View(myints);
         }
 
         public ActionResult PropertyList()
@@ -59,7 +62,7 @@ namespace MRoomMVC.Controllers
             ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").OrderBy(x => x.BHKName).AsNoTracking().ToList(), "BHKName", "BHKName");
             ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").OrderBy(x => x.FloorTypeName).AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
             ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
@@ -113,7 +116,9 @@ namespace MRoomMVC.Controllers
 
         public ActionResult StatusListing()
         {
+            var usercurrent = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
             List<ApprovePro> approves = (from pd in db.PropertyDetails
+                                         where pd.UserId == usercurrent.Id
                                          select new ApprovePro
                                          {
                                              PropertyId = pd.PropertyId,

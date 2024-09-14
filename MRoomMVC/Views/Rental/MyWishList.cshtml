@@ -71,7 +71,7 @@
                 <h5><b>@item.PropertyId</b> </h5>
                 <h5><b>Parking : </b> @item.ParkingTypeName</h5>
                 <h5><b>Parking For Visitor : @item.ParkingVisitorName</b> </h5>
-                <h5><a href="/Home/PropertyDetails?Pid=@item.Id">More Details</a></h5>
+                <h5><a href="/Home/PropertyDetails?Pid=@item.PropertyId">More Details</a></h5>
             </div>
 
             <div class="col-md-3">
@@ -83,7 +83,8 @@
             <div class="col-md-3">
                 <h5><b>Toilet </b>: @item.ToiletTypeName</h5>
                 <h5><b>Muhalla: </b> @item.ColonyName</h5>
-                <h5><a href="/Rental/BookVisit?Pid=@item.Id">Booking A Visit</a></h5>
+                <h5><a href="/Rental/BookVisit?Pid=@item.PropertyId">Booking A Visit</a></h5>
+                <h5><a href="/Rental/RemoveWishList?Pid=@item.PropertyId">Remove From WishList</a></h5>
             </div>
         </div>
     }

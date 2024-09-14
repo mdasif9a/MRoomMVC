@@ -18,9 +18,12 @@ namespace MRoomMVC.Controllers
         public ActionResult Index()
         {
             var usercurrent = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
-            int propertiesct = db.PropertyDetails.Where(x => x.UserId == usercurrent.Id).AsNoTracking().Count();
-            ViewBag.ProCount = propertiesct;
-            return View();
+            int[] myints = new int[]
+            {
+                db.WishLists.Count(x => x.UserId == usercurrent.Id),
+                db.BookingVisits.Count(x => x.UserId == usercurrent.Id),
+            };
+            return View(myints);
         }
 
         public ActionResult SearchProperty()
@@ -30,7 +33,7 @@ namespace MRoomMVC.Controllers
             ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").OrderBy(x => x.BHKName).AsNoTracking().ToList(), "BHKName", "BHKName");
             ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").OrderBy(x => x.FloorTypeName).AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
             ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
             ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
@@ -202,6 +205,28 @@ namespace MRoomMVC.Controllers
             return Redirect(Request.UrlReferrer.AbsoluteUri);
         }
 
+        public ActionResult RemoveWishList(string Pid = "")
+        {
+            if (string.IsNullOrEmpty(Pid))
+            {
+                TempData["datachange"] = "Property Id Not Given";
+            }
+            PropertyDetail property = db.PropertyDetails.Where(x => x.PropertyId == Pid).FirstOrDefault();
+            if (property == null)
+            {
+                TempData["datachange"] = "Property Not Found";
+            }
+            UserLogin user = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
+            WishList wish = db.WishLists.Where(x => x.UserId == user.Id && x.PropertyId == Pid).FirstOrDefault();
+            if (wish != null)
+            {
+                db.WishLists.Remove(wish);
+                db.SaveChanges();
+                TempData["datachange"] = "Property Successfully Removed from WishList.";
+            }
+            return Redirect(Request.UrlReferrer.AbsoluteUri);
+        }
+
         public ActionResult MyWishList()
         {
             var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
@@ -214,17 +239,25 @@ namespace MRoomMVC.Controllers
         {
             var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
             var wish = db.WishLists.Where(x => x.UserId == login.Id).Select(x => x.PropertyId).ToList();
-            var properties = db.PropertyDetails.Where(x => wish.Contains(x.PropertyId)).ToList();
+            var booking = db.BookingVisits.Where(x => x.UserId == login.Id).Select(x => x.PropertyId).ToList();
+            var properties = db.PropertyDetails.Where(x => wish.Contains(x.PropertyId) && !booking.Contains(x.PropertyId)).ToList();
             return View(properties.ToList());
         }
         public ActionResult BookVisit(string Pid = "")
         {
+            var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
+            bool isexist = db.BookingVisits.Any(x => x.PropertyId == Pid && x.UserId == login.Id);
+            if (isexist)
+            {
+                TempData["datachange"] = "Booking Already Exist.";
+                return Redirect(Request.UrlReferrer.AbsoluteUri);
+            }
             if (string.IsNullOrEmpty(Pid))
             {
                 TempData["datachange"] = "Property Id Not Given";
                 return RedirectToAction("BookVisitList");
             }
-            var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
+
             BookingVisit booking = new BookingVisit
             {
                 Id = 0,
@@ -239,12 +272,18 @@ namespace MRoomMVC.Controllers
         [HttpPost]
         public ActionResult BookingCreate(BookingVisit booking)
         {
+            bool isexist = db.BookingVisits.Any(x => x.PropertyId == booking.PropertyId && x.UserId == booking.UserId);
+            if (isexist)
+            {
+                TempData["datachange"] = "Booking Already Exist.";
+                return View(booking);
+            }
             booking.IsActive = false;
             booking.CreatedDate = DateTime.Today;
             db.BookingVisits.Add(booking);
             db.SaveChanges();
             TempData["datachange"] = "Booking Is Succefully Created. Let's We Approve Them.";
-            return RedirectToAction("BookVisitList");
+            return RedirectToAction("StatusConfirm");
         }
 
         public ActionResult StatusConfirm()
