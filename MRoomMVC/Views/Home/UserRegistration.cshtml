@@ -45,12 +45,6 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            @Html.LabelFor(m => m.FatherName, new { @class = "form-label text-start" })
-                                            @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.FatherName, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-6">
                                             @Html.LabelFor(m => m.Dob, new { @class = "form-label text-start" })
                                             @Html.TextBoxFor(m => m.Dob, new { @class = "form-control", @type = "date" })
                                             @Html.ValidationMessageFor(m => m.Dob, "", new { @class = "text-danger" })
@@ -80,23 +74,34 @@
                                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                         </div>
 
-                                        <div class="col-md-6  mb-3">
-                                            @Html.LabelFor(m => m.Role, new { @class = "form-label text-start" })
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(m => m.Role, new { @class = "form-label text-start" })<br />
 
-                                            @Html.DropDownListFor(m => m.Role, new List<SelectListItem> {
-                                                new SelectListItem { Text = "Select Role", Value = "" },
-                                                new SelectListItem { Text = "Rental", Value = "Rental" },
-                                                new SelectListItem { Text = "LandLords", Value = "LandLords" }
-                                            }, new { @class = "form-select" })
+                                            <div class="form-check form-check-inline">
+                                                @Html.RadioButtonFor(m => m.Role, "Rental", new { @class = "form-check-input", id = "rental" })
+                                                <label class="form-check-label" for="rent">Rental</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                @Html.RadioButtonFor(m => m.Role, "LandLords", new { @class = "form-check-input", id = "landLords" })
+                                                <label class="form-check-label" for="sell">LandLords</label>
+                                            </div><br />
 
                                             @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
                                         </div>
-
-                                        <div class="col-6">
-                                            <a href="/Home/Login" class="link-primary">Back To Login</a>
+                                        <div class="col-md-6">
+                                            <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" required>
                                         </div>
-                                        <div class="col-6 text-end">
-                                            <button class="btn btn-primary" type="submit">Sign Up</button>
+                                        <hr />
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <a href="/Home/Login" class="link-primary">Back To Login</a>
+                                                </div>
+                                                <div class="col-6 text-end">
+                                                    <button class="btn btn-primary" onclick="return CheckVal()" type="submit">Sign Up</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
 
@@ -121,6 +126,16 @@
             });
         </script>
     }
+    <script>
+        function CheckVal() {
+            if ($("#Password").val() === $("#ConfirmPassword").val()) {
+                return true;
+            } else {
+                alert('Password Not Match');
+                return false;
+            }
+        }
+    </script>
 </body>
 
 </html>

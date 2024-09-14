@@ -17,19 +17,19 @@ namespace MRoomMVC.Controllers
         [NonAction]
         private void MyCountries()
         {
-            ViewBag.LCountryName = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LCountryName = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
         }
 
         [AllowAnonymous]
         public JsonResult GetStates(int countryId)
         {
-            List<StateMaster> states = db.StateMasters.Where(x => x.CountryId == countryId).ToList();
+            List<StateMaster> states = db.StateMasters.Where(x => x.CountryId == countryId).OrderBy(x => x.Name).ToList();
             return Json(states, JsonRequestBehavior.AllowGet);
         }
         [AllowAnonymous]
         public JsonResult GetCities(int countryId, int stateId)
         {
-            List<CityMaster> cities = db.CityMasters.Where(x => x.StateId == stateId && x.CountryId == countryId).ToList();
+            List<CityMaster> cities = db.CityMasters.Where(x => x.StateId == stateId && x.CountryId == countryId).OrderBy(x => x.Name).ToList();
             return Json(cities, JsonRequestBehavior.AllowGet);
         }
 
@@ -273,7 +273,7 @@ namespace MRoomMVC.Controllers
                 return Content("Nothing Found");
             }
             MyCountries();
-            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == city.CountryId).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == city.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
             return View(city);
         }
 
@@ -290,7 +290,7 @@ namespace MRoomMVC.Controllers
             else
             {
                 MyCountries();
-                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == city.CountryId).AsNoTracking().ToList(), "Id", "Name");
+                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == city.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
                 TempData["datachange"] = "City is Not Updated.";
             }
             return View(city);
@@ -380,8 +380,8 @@ namespace MRoomMVC.Controllers
                 return Content("Nothing Found");
             }
             MyCountries();
-            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == muhalla.CountryId).AsNoTracking().ToList(), "Id", "Name");
-            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == muhalla.StateId && x.CountryId == muhalla.CountryId).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == muhalla.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == muhalla.StateId && x.CountryId == muhalla.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
             return View(muhalla);
         }
 
@@ -398,8 +398,8 @@ namespace MRoomMVC.Controllers
             else
             {
                 MyCountries();
-                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == muhalla.CountryId).AsNoTracking().ToList(), "Id", "Name");
-                ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == muhalla.StateId && x.CountryId == muhalla.CountryId).AsNoTracking().ToList(), "Id", "Name");
+                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == muhalla.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
+                ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == muhalla.StateId && x.CountryId == muhalla.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
                 TempData["datachange"] = "Colony-Muhalla Not Updated.";
             }
             return View(muhalla);
@@ -486,8 +486,8 @@ namespace MRoomMVC.Controllers
                 return Content("Nothing Found");
             }
             MyCountries();
-            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == nearby.CountryId).AsNoTracking().ToList(), "Id", "Name");
-            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == nearby.StateId && x.CountryId == nearby.CountryId).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == nearby.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == nearby.StateId && x.CountryId == nearby.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
             return View(nearby);
         }
 
@@ -504,8 +504,8 @@ namespace MRoomMVC.Controllers
             else
             {
                 MyCountries();
-                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == nearby.CountryId).AsNoTracking().ToList(), "Id", "Name");
-                ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == nearby.StateId && x.CountryId == nearby.CountryId).AsNoTracking().ToList(), "Id", "Name");
+                ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == nearby.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
+                ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == nearby.StateId && x.CountryId == nearby.CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
                 TempData["datachange"] = "Near By is Not Updated.";
             }
             return View(nearby);

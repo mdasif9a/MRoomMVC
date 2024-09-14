@@ -113,7 +113,7 @@ namespace MRoomMVC.Controllers
         public ActionResult PropertyVariantCreate()
         {
             ViewBag.LPropertyType = new SelectList(db.PropertyTypes
-                .Where(x => x.Status == "Active")
+                .Where(x => x.Status == "Active").OrderBy(x => x.PropertyTypeName)
                 .AsNoTracking()
                 .ToList(), "Id", "PropertyTypeName");
             return View();
@@ -132,7 +132,7 @@ namespace MRoomMVC.Controllers
             else
             {
                 ViewBag.LPropertyType = new SelectList(db.PropertyTypes
-                .Where(x => x.Status == "Active")
+                .Where(x => x.Status == "Active").OrderBy(x => x.PropertyTypeName)
                 .AsNoTracking()
                 .ToList(), "Id", "PropertyTypeName");
                 TempData["datachange"] = "Property Variant is Not Saved.";
@@ -152,7 +152,7 @@ namespace MRoomMVC.Controllers
                 return Content("Nothing Found");
             }
             ViewBag.LPropertyType = new SelectList(db.PropertyTypes
-                .Where(x => x.Status == "Active")
+                .Where(x => x.Status == "Active").OrderBy(x => x.PropertyTypeName)
                 .AsNoTracking()
                 .ToList(), "Id", "PropertyTypeName");
             return View(property);
@@ -171,7 +171,7 @@ namespace MRoomMVC.Controllers
             else
             {
                 ViewBag.LPropertyType = new SelectList(db.PropertyTypes
-                .Where(x => x.Status == "Active")
+                .Where(x => x.Status == "Active").OrderBy(x => x.PropertyTypeName)
                 .AsNoTracking()
                 .ToList(), "Id", "PropertyTypeName");
                 TempData["datachange"] = "Property Variant is Not Updated.";

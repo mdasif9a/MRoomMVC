@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace MRoomMVC.Models
+namespace MRoomMVC.ViewModels
 {
-    public class BookingVisit
+    public class BookingView
     {
-        [Key]
         public int Id { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public string Remarks { get; set; }
         public string PropertyId { get; set; }
-        [Required(ErrorMessage = "Enter Your Booking Visit Date.")]
         public DateTime? BookingTime { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
-
     }
 }

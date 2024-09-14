@@ -1,0 +1,53 @@
+﻿@model BookingVisit
+@{
+    ViewBag.Title = "Booking Confirmation";
+    ViewBag.PageTitle = "Booking Confirmation";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form action="/Admin/ConfirmBooking" method="post" class="row g-0">
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.UserId)
+                            @Html.LabelFor(m => m.PropertyId, "Property Id :", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.PropertyId, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.PropertyId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.BookingTime, "Enter Booking Date :", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.BookingTime, new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.BookingTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Remarks, "Enter Remarks :", new { @class = "from-label mb-2" })
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Status" class="from-label mb-2">Select Status</label>
+                        @Html.DropDownListFor(m => m.IsActive, new List<SelectListItem> { new SelectListItem { Text = "Approved", Value = "true" }, new SelectListItem { Text = "Not Approved", Value = "false" } }, new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="reset" class="btn btn-danger ms-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

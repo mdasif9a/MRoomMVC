@@ -18,19 +18,19 @@ namespace MRoomMVC.Controllers
         [NonAction]
         private void MyCountries()
         {
-            ViewBag.LCountryName = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LCountryName = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
         }
 
         [NonAction]
         private void MyStates(int CountryId)
         {
-            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == CountryId).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == CountryId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
         }
 
         [NonAction]
         private void MyCities(int CountryId, int StateId)
         {
-            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.CountryId == CountryId && x.StateId == StateId).AsNoTracking().ToList(), "Id", "Name");
+            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.CountryId == CountryId && x.StateId == StateId).OrderBy(x => x.Name).AsNoTracking().ToList(), "Id", "Name");
         }
 
         // Railway Crud Operations

@@ -23,8 +23,8 @@ namespace MRoomMVC.Controllers
             ViewBag.BHK1 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "1 BHK" && x.IsActive).Take(8).ToList();
             ViewBag.BHK2 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "2 BHK" && x.IsActive).Take(8).ToList();
             ViewBag.BHK3 = db.PropertyDetails.AsNoTracking().Where(x => x.BHKTypeName == "3 BHK" && x.IsActive).Take(8).ToList();
-            ViewBag.BHKType = new SelectList(db.BHKTypes.AsNoTracking(), "BHKName", "BHKName"); ;
-            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
+            ViewBag.BHKType = new SelectList(db.BHKTypes.AsNoTracking().OrderBy(x => x.BHKName), "BHKName", "BHKName"); ;
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking().OrderBy(x => x.Name), "Name", "Name");
             return View();
         }
 
@@ -68,9 +68,9 @@ namespace MRoomMVC.Controllers
                 query = query.Where(x => x.BHKTypeName == "3 BHK");
             }
             List<PropertyDetail> result = query.ToList();
-            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking().OrderBy(x => x.Name), "Name", "Name");
             //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
-            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
+            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking().OrderBy(x => x.FloorTypeName), "FloorTypeName", "FloorTypeName");
             return View(result);
         }
 
@@ -96,9 +96,9 @@ namespace MRoomMVC.Controllers
                 query2 = query2.Where(x => x.FloorTypeName == Floor);
             }
             List<PropertyDetail> result = query2.ToList();
-            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking().OrderBy(x => x.Name), "Name", "Name");
             //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
-            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
+            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking().OrderBy(x => x.FloorTypeName), "FloorTypeName", "FloorTypeName");
             return View("PropertyList", result);
         }
 
@@ -125,9 +125,9 @@ namespace MRoomMVC.Controllers
             }
 
             List<PropertyDetail> result = query.ToList();
-            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking(), "Name", "Name");
+            ViewBag.City = new SelectList(db.CityMasters.AsNoTracking().OrderBy(x => x.Name), "Name", "Name");
             //ViewBag.Colony = new SelectList(db.ColonyMuhallas.AsNoTracking(), "ColonyName", "ColonyName");
-            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking(), "FloorTypeName", "FloorTypeName");
+            ViewBag.Floor = new SelectList(db.FloorTypes.AsNoTracking().OrderBy(x => x.FloorTypeName), "FloorTypeName", "FloorTypeName");
             return View("PropertyList", result);
         }
 
@@ -233,7 +233,6 @@ namespace MRoomMVC.Controllers
                 UserDetails user = new UserDetails
                 {
                     Name = detailsView.Name,
-                    FatherName = detailsView.FatherName,
                     Dob = detailsView.Dob,
                     Email = detailsView.Email,
                     Mobile = detailsView.Mobile,
@@ -263,6 +262,24 @@ namespace MRoomMVC.Controllers
         public ActionResult ForgotPassword()
         {
             return View();
+        }
+
+        public ActionResult LoginCheckPage()
+        {
+            return View();
+        }
+
+        public ActionResult LoginCheck(string Mobile)
+        {
+            bool existsuser = db.UserDetails.Any(x => x.Mobile == Mobile);
+            if (existsuser)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return RedirectToAction("UserRegistration");
+            }
         }
 
         [HttpPost]

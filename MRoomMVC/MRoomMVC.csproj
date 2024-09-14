@@ -265,6 +265,7 @@
     <Compile Include="ViewModels\ApprovePro.cs" />
     <Compile Include="ViewModels\BankGov.cs" />
     <Compile Include="ViewModels\BankPvt.cs" />
+    <Compile Include="ViewModels\BookingView.cs" />
     <Compile Include="ViewModels\BusStand.cs" />
     <Compile Include="ViewModels\CityMaster.cs" />
     <Compile Include="ViewModels\ColonyMuhalla.cs" />
@@ -472,6 +473,9 @@
     <Content Include="Views\Rental\StatusConfirm.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Admin\ApproveBooking.cshtml" />
+    <Content Include="Views\Home\LoginCheckPage.cshtml" />
+    <Content Include="Views\Admin\ConfirmBooking.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

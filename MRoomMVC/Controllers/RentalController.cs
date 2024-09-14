@@ -25,24 +25,24 @@ namespace MRoomMVC.Controllers
 
         public ActionResult SearchProperty()
         {
-            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role != "Admin").ToList(), "Id", "Username");
-            ViewBag.LPropertyType = new SelectList(db.PropertyTypes.AsNoTracking().ToList(), "Id", "PropertyTypeName");
-            ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "BHKName", "BHKName");
-            ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
-            ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LReligion = new SelectList(db.Religions.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LFurnished = new SelectList(db.FurnishedTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LWater = new SelectList(db.WaterSupplies.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LLpg = new SelectList(db.Lpgs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LElectricity = new SelectList(db.Electricities.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LStair = new SelectList(db.Stairs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LRoof = new SelectList(db.Roofs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LCooking = new SelectList(db.CookingItems.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LNearBies = new SelectList(db.NearBies.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Id", "NearByName");
+            ViewBag.LMyUsers = new SelectList(db.UserLogins.OrderBy(x => x.Username).AsNoTracking().Where(x => x.Role != "Admin").ToList(), "Id", "Username");
+            ViewBag.LPropertyType = new SelectList(db.PropertyTypes.OrderBy(x => x.PropertyTypeName).AsNoTracking().ToList(), "Id", "PropertyTypeName");
+            ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").OrderBy(x => x.BHKName).AsNoTracking().ToList(), "BHKName", "BHKName");
+            ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").OrderBy(x => x.FloorTypeName).AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
+            ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LReligion = new SelectList(db.Religions.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFurnished = new SelectList(db.FurnishedTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LWater = new SelectList(db.WaterSupplies.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LLpg = new SelectList(db.Lpgs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LElectricity = new SelectList(db.Electricities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LStair = new SelectList(db.Stairs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LRoof = new SelectList(db.Roofs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCooking = new SelectList(db.CookingItems.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LNearBies = new SelectList(db.NearBies.Where(x => x.Status == "Active").OrderBy(x => x.NearByName).AsNoTracking().ToList(), "Id", "NearByName");
             return View();
         }
 
@@ -250,7 +250,7 @@ namespace MRoomMVC.Controllers
         public ActionResult StatusConfirm()
         {
             var login = db.UserLogins.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
-            var bookings = db.BookingVisits.Where(x => x.UserId == login.Id);
+            var bookings = db.BookingVisits.Where(x => x.UserId == login.Id).OrderByDescending(x => x.BookingTime);
             return View(bookings);
         }
         public ActionResult Settings()

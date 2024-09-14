@@ -1,0 +1,84 @@
+﻿@model UserDetails
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Login Page</title>
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+    <link href="/Content/AdminLayouts/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Content/AdminLayouts/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/Content/AdminLayouts/css/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/Content/AdminLayouts/css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-warning">
+
+    <main>
+        <div class="container">
+
+            <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                            <div class="card mb-3">
+
+                                <div class="card-body">
+
+                                    <div class="pb-2">
+                                        <h5 class="card-title text-center text-primary pb-0 fs-4">Login Or Create Your Account</h5>
+                                    </div>
+
+                                    <form class="row g-3" action="/Home/LoginCheck" method="get">
+
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Mobile, "Mobile No.(Username)", new { @class = "form-label text-start" })
+                                            @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @type = "number" })
+                                            @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <hr />
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <a href="/" class="link-primary">Back To Home</a>
+                                                </div>
+                                                <div class="col-6 text-end">
+                                                    <button class="btn btn-primary" type="submit">Sign In/Sign Up</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+    <script src="/Content/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+    <script src="/Content/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @if (TempData["datachange"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert('@TempData["datachange"]');
+            });
+        </script>
+    }
+</body>
+
+</html>

@@ -85,24 +85,24 @@ namespace MRoomMVC.Controllers
         public ActionResult PropertyCreate(string TypeFor = "")
         {
             PropertyDetail property = new PropertyDetail();
-            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role == "LandLords").ToList(), "Id", "Username");
-            ViewBag.LPropertyType = new SelectList(db.PropertyTypes.AsNoTracking().ToList(), "Id", "PropertyTypeName");
-            ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "BHKName", "BHKName");
-            ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
-            ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LReligion = new SelectList(db.Religions.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LFurnished = new SelectList(db.FurnishedTypes.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LWater = new SelectList(db.WaterSupplies.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LLpg = new SelectList(db.Lpgs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LElectricity = new SelectList(db.Electricities.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LStair = new SelectList(db.Stairs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LRoof = new SelectList(db.Roofs.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LCooking = new SelectList(db.CookingItems.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
-            ViewBag.LNearBies = new SelectList(db.NearBies.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Id", "NearByName");
+            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role == "LandLords").OrderBy(x => x.Username).ToList(), "Id", "Username");
+            ViewBag.LPropertyType = new SelectList(db.PropertyTypes.OrderBy(x => x.PropertyTypeName).AsNoTracking().ToList(), "Id", "PropertyTypeName");
+            ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").OrderBy(x => x.BHKName).AsNoTracking().ToList(), "BHKName", "BHKName");
+            ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").OrderBy(x => x.FloorTypeName).AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
+            ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LReligion = new SelectList(db.Religions.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFurnished = new SelectList(db.FurnishedTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LWater = new SelectList(db.WaterSupplies.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LLpg = new SelectList(db.Lpgs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LElectricity = new SelectList(db.Electricities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LStair = new SelectList(db.Stairs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LRoof = new SelectList(db.Roofs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCooking = new SelectList(db.CookingItems.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LNearBies = new SelectList(db.NearBies.Where(x => x.Status == "Active").OrderBy(x => x.NearByName).AsNoTracking().ToList(), "Id", "NearByName");
 
             if (!string.IsNullOrEmpty(TypeFor))
             {
@@ -166,14 +166,14 @@ namespace MRoomMVC.Controllers
 
         public JsonResult GetPropertySub(int main)
         {
-            List<PropertyVariant> variants = db.PropertyVariants.Where(x => x.PropertyTypeId == main).ToList();
+            List<PropertyVariant> variants = db.PropertyVariants.Where(x => x.PropertyTypeId == main).OrderBy(x => x.PropertyVariantName).ToList();
             return Json(variants, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetStates(string country)
         {
             var states = db.StateMasters
-                   .Where(st => db.CountryMasters.Any(ct => ct.Id == st.CountryId && ct.Name == country))
+                   .Where(st => db.CountryMasters.Any(ct => ct.Id == st.CountryId && ct.Name == country)).OrderBy(x => x.Name)
                    .Select(st => st.Name)
                    .ToList();
             return Json(states, JsonRequestBehavior.AllowGet);
@@ -182,7 +182,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetCities(string statename)
         {
             var cities = db.CityMasters
-                   .Where(cty => db.StateMasters.Any(st => st.Id == cty.StateId && st.Name == statename))
+                   .Where(cty => db.StateMasters.Any(st => st.Id == cty.StateId && st.Name == statename)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(cities, JsonRequestBehavior.AllowGet);
@@ -191,7 +191,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetColony(string cityname)
         {
             var colonies = db.ColonyMuhallas
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.ColonyName)
                    .Select(cty => cty.ColonyName)
                    .ToList();
             return Json(colonies, JsonRequestBehavior.AllowGet);
@@ -200,7 +200,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetNearBy(string cityname)
         {
             var nears = db.NearBies
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.NearByName)
                    .Select(cty => new { cty.Id, cty.NearByName })
                    .ToList();
             return Json(nears, JsonRequestBehavior.AllowGet);
@@ -209,7 +209,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetRailway(string cityname)
         {
             var results = db.RailwayStations
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -218,7 +218,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetBus(string cityname)
         {
             var results = db.BusStands
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -226,7 +226,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetSchoolGov(string cityname)
         {
             var results = db.SchoolGovs
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -234,7 +234,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetSchoolPvt(string cityname)
         {
             var results = db.SchoolPvts
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -242,7 +242,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetHospitalGov(string cityname)
         {
             var results = db.HospitalGovs
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -250,7 +250,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetHospitalPvt(string cityname)
         {
             var results = db.HospitalPvts
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -258,7 +258,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetBankPvt(string cityname)
         {
             var results = db.BankPvts
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -266,7 +266,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetBankGov(string cityname)
         {
             var results = db.BankGovs
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -274,7 +274,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetMarket(string cityname)
         {
             var results = db.Markets
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -282,7 +282,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetPublicTpt(string cityname)
         {
             var results = db.PublicTpts
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);
@@ -290,7 +290,7 @@ namespace MRoomMVC.Controllers
         public JsonResult GetDmOffice(string cityname)
         {
             var results = db.DmOffices
-                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname))
+                   .Where(cty => db.CityMasters.Any(st => st.Id == cty.CityId && st.Name == cityname)).OrderBy(x => x.Name)
                    .Select(cty => cty.Name)
                    .ToList();
             return Json(results, JsonRequestBehavior.AllowGet);

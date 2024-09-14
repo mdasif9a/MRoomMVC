@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using MRoomMVC.Data;
 using MRoomMVC.Models;
+using MRoomMVC.ViewModels;
 using System.IO;
 using System.Web;
 
 
 namespace MRoomMVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();
@@ -230,6 +231,39 @@ namespace MRoomMVC.Controllers
                 TempData["datachange"] = "Incorrect Old Passsword";
             }
             return RedirectToAction("Settings");
+        }
+
+        public ActionResult ApproveBooking()
+        {
+            var bookings = (from bk in db.BookingVisits
+                            join ur in db.UserLogins on bk.UserId equals ur.Id
+                            select new BookingView
+                            {
+                                UserName = ur.Username,
+                                PropertyId = bk.PropertyId,
+                                IsActive = bk.IsActive,
+                                Remarks = bk.Remarks,
+                                BookingTime = bk.BookingTime,
+                                Id = bk.Id,
+                                UserId = bk.UserId,
+                                CreatedDate = bk.CreatedDate
+                            }).OrderByDescending(x => x.BookingTime);
+            return View(bookings);
+        }
+
+        public ActionResult ConfirmBooking(int Bid)
+        {
+            var bookings = db.BookingVisits.Find(Bid);
+            return View(bookings);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmBooking(BookingVisit booking)
+        {
+            db.Entry(booking).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["datachange"] = "Booking Is Approved.";
+            return RedirectToAction("ApproveBooking");
         }
     }
 }
