@@ -82,6 +82,7 @@
                 <label for="Budget" class="form-label">Budget :</label>
                 <select name="Budget" id="Budget" class="form-select">
                     <option value="">Select Budget</option>
+                    <option value="5000">Under 5,000</option>
                     <option value="10000">Under 10,000</option>
                     <option value="20000">Under 20,000</option>
                     <option value="50000">Under 50,000</option>
@@ -121,15 +122,15 @@
             </div>
 
             <div class="col-md-3">
-                <h5><b>@item.BHKTypeName @item.FloorTypeName</b></h5>
-                <h5><b>Near By: </b> M.S College</h5>
-                <h5><b>Rent M/o: </b> @item.MonthlyRent</h5>
+                <h5><b>Type : @item.BHKTypeName  Floor : @item.FloorTypeName</b></h5>
+                <h5><b>Near By : </b> M.S College</h5>
+                <h5><b>Rent M/o : </b> @item.MonthlyRent</h5>
             </div>
 
             <div class="col-md-3">
-                <h5><b>Toilet </b>: @item.ToiletTypeName</h5>
-                <h5><b>Muhalla: </b> @item.ColonyName</h5>
-                <h5>Add To Wishlist</h5>
+                <h5><b>Toilet : </b>@item.ToiletTypeName</h5>
+                <h5><b>Muhalla : </b>@item.ColonyName</h5>
+                <a href="/Rental/AddWishList?Pid=@item.PropertyId" class="btn btn-success btn-sm">Add To WishList</a>
             </div>
         </div>
     }

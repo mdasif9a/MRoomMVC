@@ -65,40 +65,60 @@
         <div class="col-md-3">
             <img src="@Model.Image1" alt="Property Image 1" class="img-fluid" />
         </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-auto">
+                    <h5><b>Property ID : </b> @Model.PropertyId</h5>
+                    <h5><b>Parking : </b> @Model.ParkingTypeName</h5>
+                </div>
+                <div class="col-md-auto">
+                    <h5><b>Type : </b> @Model.BHKTypeName </h5>
+                    <h5><b>Parking fro Visitor : </b> @Model.ParkingVisitorName</h5>
 
-        <div class="col-md-3">
-            <h5><b>Property ID: </b> @Model.PropertyId</h5>
-            <h5><b>Parking (Two Wheeler): </b> @Model.ParkingTypeName</h5>
-            <h5><b>Parking (Visitor): </b> @Model.ParkingVisitorName</h5>
+                </div>
+                <div class="col-md-auto">
+                    <h5><b> Floor : </b> @Model.FloorTypeName</h5>
+                    <h5><b>Toilet Type : </b>@Model.ToiletTypeName</h5>
+
+                </div>
+            </div>
+            <h5>
+                <b>Near By : </b> @ViewBag.Nears
+            </h5>
+            <h5><b>Rent (Monthly) : </b> @Model.MonthlyRent</h5>
+            <h5><b>Muhalla : </b> @Model.ColonyName</h5>
         </div>
 
-        <div class="col-md-3">
-            <h5><b>BHK Type: </b> @Model.BHKTypeName @Model.FloorTypeName</h5>
-            <h5><b>Nearby: </b> M.S College</h5>
-            <h5><b>Rent (Monthly): </b> @Model.MonthlyRent</h5>
-        </div>
-
-        <div class="col-md-3">
-            <h5><b>Toilet Type: </b>@Model.ToiletTypeName</h5>
-            <h5><b>Muhalla: </b> @Model.ColonyName</h5>
-        </div>
     </div>
 
     <div class="row mt-4">
         <div class="col-md-3">
             <img src="@Model.Image2" alt="Property Image 2" class="img-fluid" />
         </div>
-        <div class="col-md-3">
-            <h5><b>CC TV Camera: </b> @Model.CC_TV</h5>
-            <h5><b>Furnished: </b> @Model.FurnishedName</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>Time In: </b> @Model.TimeIn</h5>
-            <h5><b>Time Out: </b> @Model.TimeOut</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>Stair: </b> @Model.StairName</h5>
-            <h5><b>Roof Access: </b> @Model.RoofName</h5>
+
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><b>CC TV Camera : </b> @Model.CC_TV</h5>
+                    <h5><b>Furnished : </b> @Model.FurnishedName</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>Time In : </b> @(Model.TimeIn != null ? DateTime.Parse(Model.TimeIn).ToString("hh:mm tt") : "N/A") </h5>
+                    <h5><b>Time Out : </b> @(Model.TimeOut != null ? DateTime.Parse(Model.TimeOut).ToString("hh:mm tt") : "N/A") </h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>Stair : </b> @Model.StairName</h5>
+                    <h5><b>Roof Access : </b> @Model.RoofName</h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>First Priority : </b> @Model.FirstPrioName</h5>
+                    <h5><b>Number of Members : </b> @Model.NoOfMembers</h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Religion : </b> @Model.ReligionName</h5>
+                    <h5><b>Cooking : </b> @Model.CookingName</h5>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -106,13 +126,21 @@
         <div class="col-md-3">
             <img src="@Model.Image3" alt="Property Image 3" class="img-fluid" />
         </div>
-        <div class="col-md-3">
-            <h5><b>First Priority: </b> @Model.FirstPrioName</h5>
-            <h5><b>Number of Members: </b> @Model.NoOfMembers</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>Religion: </b> @Model.ReligionName</h5>
-            <h5><b>Cooking: </b> @Model.CookingName</h5>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b>Water : </b> @Model.WaterName</h5>
+                    <h5><b>LPG : </b> @Model.LpgName</h5>
+                    <h5><b>Monthly Rent : </b> @Model.MonthlyRent</h5>
+                    <h5><b>Security Deposit : </b> @Model.SecurityDeposit</h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Electricity : </b> @Model.ElectricityName</h5>
+                    <h5><b>Agreement Fee : </b> @Model.AgreementFees</h5>
+                    <h5><b>Agreement Time (Months) : </b> @Model.AgreementTime</h5>
+                    <h5><b>Vacancy Period (Before Month) : </b> @Model.InVacantTime</h5>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -120,12 +148,24 @@
         <div class="col-md-3">
             <img src="@Model.Image4" alt="Property Image 4" class="img-fluid" />
         </div>
-        <div class="col-md-3">
-            <h5><b>Water: </b> @Model.WaterName</h5>
-            <h5><b>LPG: </b> @Model.LpgName</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>Electricity: </b> @Model.ElectricityName</h5>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><b>Railway Station : </b> @Model.RailwayName</h5>
+                    <h5><b>Bus Station : </b> @Model.BusName</h5>
+                    <h5><b>DM Office : </b> @Model.DmOfficeName</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>School (Govt) : </b> @Model.SchoolGovName</h5>
+                    <h5><b>School (Private) : </b> @Model.SchoolPvtName</h5>
+                    <h5><b>Bank (Govt) : </b> @Model.BankGovName</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>Hospital (Govt) : </b> @Model.HospitalGovName</h5>
+                    <h5><b>Hospital (Private) : </b> @Model.HospitalPvtName</h5>
+                    <h5><b>Bank (Private) : </b> @Model.BankPvtName</h5>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -133,14 +173,24 @@
         <div class="col-md-3">
             <img src="@Model.Image5" alt="Property Image 5" class="img-fluid" />
         </div>
-        <div class="col-md-3">
-            <h5><b>Monthly Rent: </b> @Model.MonthlyRent</h5>
-            <h5><b>Security Deposit: </b> @Model.SecurityDeposit</h5>
-            <h5><b>Agreement Fee: </b> @Model.AgreementFees</h5>
-        </div>
-        <div class="col-md-6">
-            <h5><b>Agreement Time (Months): </b> @Model.AgreementTime</h5>
-            <h5><b>Vacancy Period (Before Month): </b> @Model.InVacantTime</h5>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><b>Railway Station (Dis) : </b> @Model.RailwayDis Km</h5>
+                    <h5><b>Bus Station (Dis) : </b> @Model.BusDis Km</h5>
+                    <h5><b>DM Office (Dis) : </b> @Model.DmOfficeDis Km</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>School (Govt) (Dis) : </b> @Model.SchoolGovDis Km</h5>
+                    <h5><b>School (Private) (Dis) : </b> @Model.SchoolPvtDis Km</h5>
+                    <h5><b>Bank (Govt) (Dis) : </b> @Model.BankGovDis Km</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><b>Hospital (Govt) (Dis) : </b> @Model.HospitalGovDis Km</h5>
+                    <h5><b>Hospital (Private) (Dis) : </b> @Model.HospitalPvtDis Km</h5>
+                    <h5><b>Bank (Private) (Dis) : </b> @Model.BankPvtDis Km</h5>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -148,29 +198,17 @@
         <div class="col-md-3">
             <img src="@Model.Image6" alt="Property Image 6" class="img-fluid" />
         </div>
-        <div class="col-md-3">
-            <h5><b>Railway Station: </b> @Model.RailwayName</h5>
-            <h5><b>Bus Station: </b> @Model.BusName</h5>
-            <h5><b>DM Office: </b> @Model.DmOfficeName</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>School (Govt): </b> @Model.SchoolGovName</h5>
-            <h5><b>School (Private): </b> @Model.SchoolPvtName</h5>
-            <h5><b>Bank (Govt): </b> @Model.BankGovName</h5>
-        </div>
-        <div class="col-md-3">
-            <h5><b>Hospital (Govt): </b> @Model.HospitalGovName</h5>
-            <h5><b>Hospital (Private): </b> @Model.HospitalPvtName</h5>
-            <h5><b>Bank (Private): </b> @Model.BankPvtName</h5>
+        <div class="col-md-9">
+            <div class="row h-100">
+                <div class="col-md-12">
+                    <h5><b>Description: </b> @Model.Description</h5>
+                </div>
+                <div class="col-12 align-self-end text-end">
+                    <a href="/Rental/AddWishList?Pid=@Model.PropertyId" class="btn btn-success btn-sm">Add To WishList</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <h5><b>Description: </b> @Model.Description</h5>
-        </div>
-        <div class="col-12 text-end">
-            <a href="/Rental/AddWishList?Pid=@Model.PropertyId" class="btn btn-success btn-sm">Add To WishList</a>
-        </div>
-    </div>
+
 </div>

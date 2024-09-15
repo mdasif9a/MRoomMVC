@@ -134,6 +134,9 @@ namespace MRoomMVC.Controllers
         public ActionResult PropertyDetails(string Pid = "")
         {
             PropertyDetail detail = db.PropertyDetails.FirstOrDefault(x => x.PropertyId == Pid);
+            var nearsid = db.PD_Near.Where(x => x.PropertyId == detail.Id).Select(x => x.NearById).ToList();
+            List<string> nears = db.NearBies.Where(x => nearsid.Contains(x.Id)).Select(x => x.NearByName).ToList();
+            ViewBag.Nears = string.Join(", ", nears);
             if (detail == null)
             {
                 return HttpNotFound();
