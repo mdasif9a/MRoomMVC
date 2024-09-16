@@ -165,9 +165,14 @@ namespace MRoomMVC.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string Mobile = "")
         {
-            return View();
+            UserLogin login = new UserLogin();
+            if (!string.IsNullOrEmpty(Mobile))
+            {
+                login.Username = Mobile;
+            }
+            return View(login);
         }
 
         [HttpPost]
@@ -210,9 +215,14 @@ namespace MRoomMVC.Controllers
             return Redirect("/Home/Login");
         }
 
-        public ActionResult UserRegistration()
+        public ActionResult UserRegistration(string Mobile = "")
         {
-            return View();
+            UserDetailsView login = new UserDetailsView();
+            if (!string.IsNullOrEmpty(Mobile))
+            {
+                login.Mobile = Mobile;
+            }
+            return View(login);
         }
 
         [HttpPost]
@@ -277,11 +287,11 @@ namespace MRoomMVC.Controllers
             bool existsuser = db.UserDetails.Any(x => x.Mobile == Mobile);
             if (existsuser)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { Mobile = Mobile });
             }
             else
             {
-                return RedirectToAction("UserRegistration");
+                return RedirectToAction("UserRegistration", new { Mobile = Mobile });
             }
         }
 

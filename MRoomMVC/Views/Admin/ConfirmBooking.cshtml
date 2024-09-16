@@ -11,7 +11,7 @@
             <div class="card-body">
                 <form action="/Admin/ConfirmBooking" method="post" class="row g-0">
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mb-3">
                             @Html.HiddenFor(x => x.Id)
                             @Html.HiddenFor(x => x.UserId)
@@ -20,15 +20,15 @@
                             @Html.ValidationMessageFor(m => m.PropertyId, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mb-3">
                             @Html.LabelFor(m => m.BookingTime, "Enter Booking Date :", new { @class = "from-label mb-2" })
-                            @Html.TextBoxFor(m => m.BookingTime, new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.BookingTime, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
                             @Html.ValidationMessageFor(m => m.BookingTime, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mb-3">
                             @Html.LabelFor(m => m.Remarks, "Enter Remarks :", new { @class = "from-label mb-2" })
                             @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
@@ -36,10 +36,12 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="Status" class="from-label mb-2">Select Status</label>
-                        @Html.DropDownListFor(m => m.IsActive, new List<SelectListItem> { new SelectListItem { Text = "Approved", Value = "true" }, new SelectListItem { Text = "Not Approved", Value = "false" } }, new { @class = "form-select" })
-                        @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="Status" class="from-label mb-2">Select Status</label>
+                            @Html.DropDownListFor(m => m.IsActive, new List<SelectListItem> { new SelectListItem { Text = "Approved", Value = "true" }, new SelectListItem { Text = "Not Approved", Value = "false" } }, new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
+                        </div>
                     </div>
 
                     <div class="text-end">

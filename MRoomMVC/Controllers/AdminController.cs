@@ -12,7 +12,7 @@ using System.Web;
 
 namespace MRoomMVC.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly MRoomDbContext db = new MRoomDbContext();

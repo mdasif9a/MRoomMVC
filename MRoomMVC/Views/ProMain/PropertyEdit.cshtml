@@ -43,9 +43,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form action="/ProMain/PropertyCreate" method="post" enctype="multipart/form-data">
+                <form action="/ProMain/PropertyEdit" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="mb-3 col-md-6">
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.PropertyId)
+                            @Html.HiddenFor(x => x.CreatedDate)
+                            @Html.HiddenFor(x => x.IsActive)
                             <label class="form-label mb-2 d-block">For</label>
                             <div class="form-check form-check-inline">
                                 @Html.RadioButtonFor(m => m.PropertyFor, "Rent", new { @class = "form-check-input", id = "rent" })
@@ -99,7 +103,7 @@
 
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.PropertyVariantName, "Property Variant", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.PropertyVariantName, new List<SelectListItem> { new SelectListItem { Text = "Select Property Variant", Value = "" }, new SelectListItem { Text = "Select Property Type First", Value = "" } }, new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.PropertyVariantName, (IEnumerable<SelectListItem>)ViewBag.LPropertyVariant, "Select Property Variant", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.PropertyVariantName, "", new { @class = "text-danger" })
                             </div>
 
@@ -196,18 +200,14 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.StateName, "State :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.StateName, new List<SelectListItem> {
-    new SelectListItem { Text = "Select State", Value = "" },
-    new SelectListItem { Text = "Select Country First", Value = "" }
-}, new { @class = "form-select", onchange = "GetCities()" })
-
+                                @Html.DropDownListFor(m => m.StateName, (IEnumerable<SelectListItem>)ViewBag.LStateName, "Select State", new { @class = "form-select", onchange = "GetCities()" })
                                 @Html.ValidationMessageFor(m => m.StateName, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.CityName, "City :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.CityName, new List<SelectListItem> { new SelectListItem { Text = "Select City", Value = "" }, new SelectListItem { Text = "Select State First", Value = "" } }, new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.CityName, (IEnumerable<SelectListItem>)ViewBag.LCityName, "Select City", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.CityName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -215,19 +215,15 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.ColonyName, "Colony / Muhalla :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.ColonyName, new List<SelectListItem> { new SelectListItem { Text = "Select Colony / Muhalla", Value = "" }, new SelectListItem { Text = "Select City First", Value = "" } }, new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.ColonyName, (IEnumerable<SelectListItem>)ViewBag.LColonyName, "Select Colony / Muhalla", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.ColonyName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                @Html.LabelFor(m => m.NearBies, "Select Near Bies :", new { @class = "from-label mb-2" })
-                                @Html.ListBoxFor(m => m.NearBies, new List<SelectListItem> {
-    new SelectListItem { Text = "Select Near By", Value = "" },
-    new SelectListItem { Text = "Select City First", Value = "" }
-}, new { @class = "form-select", multiple = "multiple" })
-
+                                @Html.LabelFor(m => m.NearBies, "Select Near By :", new { @class = "from-label mb-2" })
+                                @Html.ListBoxFor(m => m.NearBies, (IEnumerable<SelectListItem>)ViewBag.LNearBies, new { @class = "form-select", multiple = "multiple" })
                                 @Html.ValidationMessageFor(m => m.NearBies, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -403,7 +399,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.RailwayName, "Railway Station Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.RailwayName, Enumerable.Empty<SelectListItem>(), "Select Railway station", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.RailwayName, (IEnumerable<SelectListItem>)ViewBag.LRailway, "Select Railway station", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.RailwayName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -419,7 +415,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.BusName, "Bus Stand Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.BusName, Enumerable.Empty<SelectListItem>(), "Select Bus station", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.BusName, (IEnumerable<SelectListItem>)ViewBag.LBusStand, "Select Bus station", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.BusName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -435,7 +431,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.SchoolGovName, "School Gov Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.SchoolGovName, Enumerable.Empty<SelectListItem>(), "Select SchoolGov", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.SchoolGovName, (IEnumerable<SelectListItem>)ViewBag.LSchoolGov, "Select SchoolGov", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.SchoolGovName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -451,7 +447,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.SchoolPvtName, "School Pvt Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.SchoolPvtName, Enumerable.Empty<SelectListItem>(), "Select SchoolPvt", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.SchoolPvtName, (IEnumerable<SelectListItem>)ViewBag.LSchoolPvt, "Select SchoolPvt", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.SchoolPvtName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -467,7 +463,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.HospitalGovName, "Hospital Gov Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.HospitalGovName, Enumerable.Empty<SelectListItem>(), "Select HospitalGov", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.HospitalGovName, (IEnumerable<SelectListItem>)ViewBag.LHospitalGov, "Select HospitalGov", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.HospitalGovName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -483,7 +479,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.HospitalPvtName, "Hospital Pvt Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.HospitalPvtName, Enumerable.Empty<SelectListItem>(), "Select HospitalPvt", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.HospitalPvtName, (IEnumerable<SelectListItem>)ViewBag.LHospitalPvt, "Select HospitalPvt", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.HospitalPvtName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -501,7 +497,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.BankGovName, "Bank Gov Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.BankGovName, Enumerable.Empty<SelectListItem>(), "Select BankGov", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.BankGovName, (IEnumerable<SelectListItem>)ViewBag.LBankGov, "Select BankGov", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.BankGovName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -517,7 +513,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.BankPvtName, "Bank Pvt Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.BankPvtName, Enumerable.Empty<SelectListItem>(), "Select BankPvt", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.BankPvtName, (IEnumerable<SelectListItem>)ViewBag.LBankPvt, "Select BankPvt", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.BankPvtName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -533,7 +529,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.MarketName, "Market Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.MarketName, Enumerable.Empty<SelectListItem>(), "Select Market station", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.MarketName, (IEnumerable<SelectListItem>)ViewBag.LMarket, "Select Market", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.MarketName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -549,7 +545,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.DmOfficeName, "DmOffice Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.DmOfficeName, Enumerable.Empty<SelectListItem>(), "Select DmOffice station", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.DmOfficeName, (IEnumerable<SelectListItem>)ViewBag.LDMOffice, "Select DmOffice", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.DmOfficeName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -565,7 +561,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.LabelFor(m => m.PublicTptName, "PublicTpt Name :", new { @class = "from-label mb-2" })
-                                @Html.DropDownListFor(m => m.PublicTptName, Enumerable.Empty<SelectListItem>(), "Select PublicTpt station", new { @class = "form-select" })
+                                @Html.DropDownListFor(m => m.PublicTptName, (IEnumerable<SelectListItem>)ViewBag.LPublicTpt, "Select PublicTpt", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(m => m.PublicTptName, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -594,43 +590,43 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 1(Featured Image) :</label>
-                                <input type="file" id="imageInput1" name="imageInput1" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput1" data-valmsg-replace="true"></span>
+                                @Html.HiddenFor(m => m.Image1)
+                                @Html.HiddenFor(m => m.Image2)
+                                @Html.HiddenFor(m => m.Image3)
+                                @Html.HiddenFor(m => m.Image4)
+                                @Html.HiddenFor(m => m.Image5)
+                                @Html.HiddenFor(m => m.Image6)
+                                <input type="file" id="imageInput1" name="imageInput1" class="form-control-file" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 2 :</label>
-                                <input type="file" id="imageInput2" name="imageInput2" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput2" data-valmsg-replace="true"></span>
+                                <input type="file" id="imageInput2" name="imageInput2" class="form-control-file" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 3 :</label>
-                                <input type="file" id="imageInput3" name="imageInput3" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput3" data-valmsg-replace="true"></span>
+                                <input type="file" id="imageInput3" name="imageInput3" class="form-control-file" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 4 :</label>
-                                <input type="file" id="imageInput4" name="imageInput4" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput4" data-valmsg-replace="true"></span>
+                                <input type="file" id="imageInput4" name="imageInput4" class="form-control-file" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 5 :</label>
-                                <input type="file" id="imageInput5" name="imageInput5" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput5" data-valmsg-replace="true"></span>
+                                <input type="file" id="imageInput5" name="imageInput5" class="form-control-file" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Image 6 :</label>
-                                <input type="file" id="imageInput6" name="imageInput6" class="form-control-file" data-val="true" data-val-required="Upload Image" />
-                                <span class="text-danger field-validation-valid" data-valmsg-for="imageInput6" data-valmsg-replace="true"></span>
+                                <input type="file" id="imageInput6" name="imageInput6" class="form-control-file" />
                             </div>
                         </div>
                     </div>
@@ -716,7 +712,7 @@
                         </div>
                     </div>
                     <div class="text-end">
-                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary" onclick="MyDemo()">Submit</button>
                         <button type="reset" class="btn btn-danger ms-3">Reset</button>
                     </div>
                 </form>
@@ -749,7 +745,7 @@
             });
         });
 
-        function MyDemo(e) {
+        function MyDemo() {
             //alert('Some Things Are Under Constrution');
         }
         function GetPropertySub() {

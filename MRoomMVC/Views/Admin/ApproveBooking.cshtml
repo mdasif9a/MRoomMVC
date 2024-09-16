@@ -37,13 +37,13 @@
                                 @:Not Approved
                             }
                         </td>
-                        <td>@item.Remarks</td>
                         <td>
                             @if (item.BookingTime.HasValue)
                             {
                                 @:@item.BookingTime.Value.ToShortDateString()
                             }
                         </td>
+                        <td>@item.Remarks</td>
                         <td>
                             <a href="/Home/PropertyDetails?Pid=@item.PropertyId" class="btn btn-success btn-sm">View Details</a>
                         </td>

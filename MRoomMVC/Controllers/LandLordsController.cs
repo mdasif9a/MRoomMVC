@@ -159,5 +159,149 @@ namespace MRoomMVC.Controllers
             }
             return RedirectToAction("Settings");
         }
+
+        [NonAction]
+        private string EditSaveFile(string OldUrl, HttpPostedFileBase file, string subfolder)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                string imgurl = "/Content/" + subfolder + "/";
+                string filename = Guid.NewGuid() + DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(file.FileName);
+                string filePath = Server.MapPath(imgurl);
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+                string fullFilePath = Path.Combine(filePath, filename);
+                file.SaveAs(fullFilePath);
+                string oldfilePath = Server.MapPath(OldUrl);
+                if (System.IO.File.Exists(oldfilePath))
+                {
+                    System.IO.File.Delete(oldfilePath);
+                }
+                return imgurl + filename;
+            }
+            return OldUrl;
+        }
+
+        public ActionResult PropertyEdit(int id)
+        {
+            PropertyDetail property = db.PropertyDetails.Find(id);
+            ViewBag.LMyUsers = new SelectList(db.UserLogins.AsNoTracking().Where(x => x.Role == "LandLords").OrderBy(x => x.Username).ToList(), "Id", "Username");
+            ViewBag.LPropertyType = new SelectList(db.PropertyTypes.OrderBy(x => x.PropertyTypeName).AsNoTracking().ToList(), "Id", "PropertyTypeName");
+            ViewBag.LBHK = new SelectList(db.BHKTypes.Where(x => x.Status == "Active").OrderBy(x => x.BHKName).AsNoTracking().ToList(), "BHKName", "BHKName");
+            ViewBag.LToiletType = new SelectList(db.ToiletTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingType = new SelectList(db.ParkingTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LParkingVisitors = new SelectList(db.ParkingVisitors.Where(x => x.Status == "Active").AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFloor = new SelectList(db.FloorTypes.Where(x => x.Status == "Active").OrderBy(x => x.FloorTypeName).AsNoTracking().ToList(), "FloorTypeName", "FloorTypeName");
+            ViewBag.LFirstPriority = new SelectList(db.FirstPriorities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCountry = new SelectList(db.CountryMasters.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LReligion = new SelectList(db.Religions.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LFurnished = new SelectList(db.FurnishedTypes.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LWater = new SelectList(db.WaterSupplies.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LLpg = new SelectList(db.Lpgs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LElectricity = new SelectList(db.Electricities.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LStair = new SelectList(db.Stairs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LRoof = new SelectList(db.Roofs.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            ViewBag.LCooking = new SelectList(db.CookingItems.Where(x => x.Status == "Active").OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            //For Edit Sections
+            ViewBag.LPropertyVariant = new SelectList(db.PropertyVariants.Where(x => x.Status == "Active" && x.PropertyTypeId == property.PropertyTypeId)
+                .OrderBy(x => x.PropertyVariantName).AsNoTracking().ToList(), "PropertyVariantName", "PropertyVariantName");
+            var mycontry = db.CountryMasters.FirstOrDefault(x => x.Name == property.CountryName);
+            ViewBag.LStateName = new SelectList(db.StateMasters.Where(x => x.Status == "Active" && x.CountryId == mycontry.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            var mystate = db.StateMasters.FirstOrDefault(x => x.Name == property.StateName);
+            ViewBag.LCityName = new SelectList(db.CityMasters.Where(x => x.Status == "Active" && x.StateId == mystate.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            var mycity = db.CityMasters.FirstOrDefault(x => x.Name == property.CityName);
+            ViewBag.LColonyName = new SelectList(db.ColonyMuhallas.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.ColonyName).AsNoTracking().ToList(), "ColonyName", "ColonyName");
+
+            List<int> pD_s = db.PD_Near.Where(x => x.PropertyId == property.Id).Select(x => x.NearById).ToList();
+            property.NearBies = pD_s;
+            ViewBag.LNearBies = new SelectList(db.NearBies.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.NearByName).AsNoTracking().ToList(), "Id", "NearByName");
+
+            ViewBag.LRailway = new SelectList(db.RailwayStations.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LBusStand = new SelectList(db.BusStands.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LSchoolGov = new SelectList(db.SchoolGovs.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LSchoolPvt = new SelectList(db.SchoolPvts.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LBankGov = new SelectList(db.BankGovs.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LBankPvt = new SelectList(db.BankPvts.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LHospitalGov = new SelectList(db.HospitalGovs.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LHospitalPvt = new SelectList(db.HospitalPvts.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LPublicTpt = new SelectList(db.PublicTpts.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LMarket = new SelectList(db.Markets.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+
+            ViewBag.LDMOffice = new SelectList(db.DmOffices.Where(x => x.Status == "Active" && x.CityId == mycity.Id)
+                .OrderBy(x => x.Name).AsNoTracking().ToList(), "Name", "Name");
+            return View(property);
+        }
+
+
+        [HttpPost]
+        public ActionResult PropertyEdit(PropertyDetail property, HttpPostedFileBase imageInput1, HttpPostedFileBase imageInput2, HttpPostedFileBase imageInput3, HttpPostedFileBase imageInput4, HttpPostedFileBase imageInput5, HttpPostedFileBase imageInput6)
+        {
+            List<PD_Near> pD_Nears = new List<PD_Near>();
+            if (ModelState.IsValid)
+            {
+                property.Image1 = EditSaveFile(property.Image1, imageInput1, "PropertyImages");
+                property.Image2 = EditSaveFile(property.Image2, imageInput2, "PropertyImages");
+                property.Image3 = EditSaveFile(property.Image3, imageInput3, "PropertyImages");
+                property.Image4 = EditSaveFile(property.Image4, imageInput4, "PropertyImages");
+                property.Image5 = EditSaveFile(property.Image5, imageInput5, "PropertyImages");
+                property.Image6 = EditSaveFile(property.Image6, imageInput6, "PropertyImages");
+                property.UpdatedDate = DateTime.Today;
+                db.Entry(property).State = EntityState.Modified;
+                db.SaveChanges();
+                pD_Nears = db.PD_Near.Where(x => x.PropertyId == property.Id).ToList();
+                db.PD_Near.RemoveRange(pD_Nears);
+                db.SaveChanges();
+                pD_Nears.Clear();
+                pD_Nears.AddRange(from item1 in property.NearBies
+                                  let d_Near = new PD_Near { NearById = item1, PropertyId = property.Id }
+                                  select d_Near);
+                db.PD_Near.AddRange(pD_Nears);
+                db.SaveChanges();
+                TempData["datachange"] = "Property is Successfully Update.";
+                return RedirectToAction("ProAllList");
+            }
+            else
+            {
+                TempData["datachange"] = "Property Type is Not Update.";
+            }
+            return View(property);
+        }
+
+        [NonAction]
+        private void DeleteFile(string mainpath)
+        {
+            string oldfilepath = Server.MapPath(mainpath);
+            if (System.IO.File.Exists(oldfilepath))
+            {
+                System.IO.File.Delete(oldfilepath);
+            }
+        }
+
     }
 }
